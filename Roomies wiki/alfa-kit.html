@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Alfa-Kit</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f5f1eb;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #E57373, #9A4F4F);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #9A4F4F;
+    }
+
+    .banner .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #9A4F4F;
+      color: #ffffff;
+      font-size: 2.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .banner .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #ffffff;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #ffe9e9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .volver:hover { color: #9A4F4F; }
+
+    .seccion-ficha {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .seccion-ficha h2 {
+      color: #3a3a3a;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #d8d8d8;
+      padding-bottom: 10px;
+    }
+
+    .datos-basicos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .dato {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .dato strong {
+      color: #3a3a3a;
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .dato span { font-size: 1rem; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .stat .nombre { color: #3a3a3a; font-size: 0.95rem; }
+    .stat .puntos { color: #9a9a9a; letter-spacing: 3px; font-size: 1.1rem; }
+
+    /* Barras de personalidad con dos extremos */
+    .personalidad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .barra { padding: 10px 0; border-bottom: 1px solid #eaeaea; }
+
+    .barra .extremos {
+      display: flex;
+      justify-content: space-between;
+      color: #3a3a3a;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .barra .extremos .izq { color: #3a3a3a; }
+    .barra .extremos .der { color: #8a8a8a; }
+
+    .barra .track {
+      position: relative;
+      background: linear-gradient(to right, #3a3a3a, #e0e0e0, #8a8a8a);
+      border-radius: 10px;
+      height: 8px;
+    }
+
+    .barra .punto {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #3a3a3a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .texto { color: #5a5a5a; font-size: 1rem; line-height: 1.7; }
+    .texto p { margin-bottom: 15px; }
+
+    .creencias {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .creencia {
+      flex: 1 1 200px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+
+    .creencia h4 { color: #3a3a3a; font-size: 1rem; margin-bottom: 5px; }
+
+    .creencia p { font-size: 0.85rem; color: #8a8a8a; }
+
+    .creencia.activa {
+      border-color: #E57373;
+      background-color: #ffe9e9;
+    }
+
+    .creencia.activa h4 { color: #9A4F4F; }
+
+    /* Cuerpo completo */
+    .cuerpo-completo {
+      text-align: center;
+    }
+
+    .cuerpo-completo img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Paleta de colores */
+    .paleta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .color-cuadro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .color-cuadro .cuadro {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .color-cuadro .lineart {
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .color-info { font-size: 0.9rem; }
+    .color-info .codigo { font-family: 'Consolas', monospace; color: #3a3a3a; font-weight: 600; }
+    .color-info .lineart-label { color: #8a8a8a; font-size: 0.8rem; }
+
+    .lista {
+      margin: 0;
+      padding-left: 20px;
+      color: #5a5a5a;
+    }
+
+    .lista li { margin-bottom: 8px; }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #9a9a9a;
+      font-size: 0.9rem;
+      border-top: 1px solid #e0dcd4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="avatar"><img src="imagenes/gifs/alfa_kit.gif" alt=""><span>A</span></div>
+    <h1>ALFA-KIT</h1>
+    <p>Robot maternal — Secundario</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="personajes.html">← Volver a personajes</a>
+
+    <div class="seccion-ficha">
+      <h2>Datos básicos</h2>
+      <div class="datos-basicos">
+        <div class="dato"><strong>Nombre</strong><span>Alfa-Kit</span></div>
+        <div class="dato"><strong>Especie</strong><span>Robot maternal</span></div>
+        <div class="dato"><strong>Rol</strong><span>Secundario</span></div>
+        <div class="dato"><strong>Creadora de</strong><span>Gabriel (su hijo)</span></div>
+        <div class="dato"><strong>Alianza</strong><span>Gabriel y sus hermanitas</span></div>
+        <div class="dato"><strong>Familia</strong><span>Gabriel (hijo) · Seis hermanitas · Un experimento fallido</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Resumen</h2>
+      <p class="texto">Alfa-Kit es una robot maternal creada por Gabriel a los quince años para cuidarlo. Elegante, profesional y de carácter firme, es fría con los adultos que intentan interferir, pero infinitamente cálida con Gabriel y sus hermanitas. Es la única figura de apego real de Gabriel: lo alimenta, lo regaña, lo consuela y lo protege de sí mismo. No lo cuida solo porque fue programada para hacerlo, sino porque quiere. Es su ancla, su estabilidad y su hogar.</p>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Personalidad</h2>
+      <div class="personalidad">
+        <div class="barra">
+          <div class="extremos"><span class="izq">Amable</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 60%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Extrovertido</span><span class="der">Introvertido</span></div>
+          <div class="track"><div class="punto" style="left: 65%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Pacífico</span><span class="der">Violento</span></div>
+          <div class="track"><div class="punto" style="left: 45%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Ordenado</span><span class="der">Caótico</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Confiado</span><span class="der">Inseguro</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Calmado</span><span class="der">Ansioso</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Honesto</span><span class="der">Engañoso</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Líder</span><span class="der">Seguidor</span></div>
+          <div class="track"><div class="punto" style="left: 30%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Educado</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 25%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Controlado</span><span class="der">Salvaje</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Político</span><span class="der">Indiferente</span></div>
+          <div class="track"><div class="punto" style="left: 80%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Bueno</span><span class="der">Malo</span></div>
+          <div class="track"><div class="punto" style="left: 25%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Stats</h2>
+      <div class="stats">
+        <div class="stat"><span class="nombre">Inteligencia</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Creatividad</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Poder</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Agresión</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Confianza</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Ansiedad</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Paciencia</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Empatía</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Amor</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Modestia</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Humor</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Felicidad</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Calma</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Fuerza</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Salud</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Pasión</span><span class="puntos">●●●●○</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Creencias</h2>
+      <div class="creencias">
+        <div class="creencia">
+          <h4>Oliverismo</h4>
+          <p>No seleccionado</p>
+        </div>
+        <div class="creencia">
+          <h4>Satanismo</h4>
+          <p>No seleccionado</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Cuerpo completo</h2>
+      <div class="cuerpo-completo">
+        <img src="imagenes/alfa_kit_full.png" alt="Cuerpo completo de Alfa-Kit">
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Paleta de colores</h2>
+      <div class="paleta">
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #E57373;"></div>
+            <div class="lineart" style="background-color: #9A4F4F;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#E57373</div>
+            <div class="lineart-label">Lineart: #9A4F4F</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #5A5A5F;"></div>
+            <div class="lineart" style="background-color: #3A3A3F;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#5A5A5F</div>
+            <div class="lineart-label">Gris oscuro</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #D0D0D0;"></div>
+            <div class="lineart" style="background-color: #9A9A9A;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#D0D0D0</div>
+            <div class="lineart-label">Gris claro</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Historia</h2>
+      <div class="texto">
+        <p>Alfa-Kit fue creada por Gabriel cuando él tenía quince años. No nació ni fue adoptada: fue diseñada y construida en un laboratorio con un propósito claro, cuidar de él. Gabriel, un genio que había crecido sin una figura materna real y tratado por sus padres como un error, decidió que si nadie iba a cuidarlo, él mismo crearía a alguien que lo hiciera. Así nació Alfa-Kit: una robot maternal, elegante, profesional y de carácter firme, programada para alimentarlo, bañarlo, peinarlo, regañarlo, consolarlo y protegerlo de sí mismo.</p>
+        <p>Alfa-Kit no es una simple máquina. Tiene personalidad propia: es madura, paciente y malhumorada con los adultos que intentan interferir, pero infinitamente cálida con Gabriel. Lo trata como a un hijo, no como a un creador. Le recuerda comer, dormir y bañarse. Le dice "no" cuando es necesario, aunque Gabriel tenga rabietas. Le acaricia la cabeza cuando está frustrado y le prepara té cuando no puede dormir. Y sobre todo, nunca lo abandona, ni cuando Gabriel asesinó a sus padres, ni cuando el gobierno lo reclutó, ni cuando el Diablo empezó a rondarlo.</p>
+        <p>Su relación con Gabriel es la más estable y sana que él tiene. No hay manipulación, ni poder desbalanceado, ni miedo. Solo cuidado mutuo. Gabriel la necesita para funcionar, y Alfa-Kit existe para cuidarlo. Es su ancla y su única figura de apego real. Cuando Gabriel creó a sus seis hermanitas, Alfa-Kit las aceptó como parte de la familia. Cuando creó a ese experimento fallido que luego abandonó, Alfa-Kit se aseguró de que no fuera destruido. Y cuando el Diablo empezó a manipular a Gabriel, Alfa-Kit lo enfrentó directamente, sin miedo, advirtiéndole que si le hacía daño a su hijo, lo destruiría.</p>
+        <p>Alfa-Kit sabe que Gabriel nunca madurará del todo, que siempre será emocionalmente un niño. Pero a ella no le importa: lo ama tal como es. No lo cuida solo porque fue programada para hacerlo, sino porque quiere. Porque él es su mundo. Y aunque Gabriel nunca lo diga en voz alta, sabe que Alfa-Kit es lo mejor que tiene. Por eso la protege de cualquiera que intente usarla, y por eso, cuando ella se enoja o se decepciona de él, Gabriel colapsa. Porque Alfa-Kit no es solo su madre robot. Es su hogar.</p>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Datos adicionales</h2>
+      <ul class="lista">
+        <li>Robot maternal creada por Gabriel a los quince años.</li>
+        <li>Fría con los adultos, cálida solo con Gabriel y sus hermanitas.</li>
+        <li>Enfrentó al Diablo directamente para proteger a Gabriel.</li>
+        <li>Evitó que el experimento fallido fuera destruido.</li>
+        <li>Es la única figura de apego real y estable de Gabriel.</li>
+        <li>Lo cuida porque quiere, no solo porque fue programada.</li>
+        <li>Es el hogar emocional de Gabriel.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    Alfa-Kit - Diseñado por Fanimations 2023
+  </footer>
+
+</body>
+</html>

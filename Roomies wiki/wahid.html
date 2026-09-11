@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Nº1 (Wahid)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f5f1eb;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #FFCA75, #DA890F);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #DA890F;
+    }
+
+    .banner .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #DA890F;
+      color: #ffffff;
+      font-size: 2.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .banner .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #ffffff;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #fff4e0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .volver:hover { color: #DA890F; }
+
+    .seccion-ficha {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .seccion-ficha h2 {
+      color: #3a3a3a;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #d8d8d8;
+      padding-bottom: 10px;
+    }
+
+    .datos-basicos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .dato {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .dato strong {
+      color: #3a3a3a;
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .dato span { font-size: 1rem; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .stat .nombre { color: #3a3a3a; font-size: 0.95rem; }
+    .stat .puntos { color: #9a9a9a; letter-spacing: 3px; font-size: 1.1rem; }
+
+    /* Barras de personalidad con dos extremos */
+    .personalidad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .barra { padding: 10px 0; border-bottom: 1px solid #eaeaea; }
+
+    .barra .extremos {
+      display: flex;
+      justify-content: space-between;
+      color: #3a3a3a;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .barra .extremos .izq { color: #3a3a3a; }
+    .barra .extremos .der { color: #8a8a8a; }
+
+    .barra .track {
+      position: relative;
+      background: linear-gradient(to right, #3a3a3a, #e0e0e0, #8a8a8a);
+      border-radius: 10px;
+      height: 8px;
+    }
+
+    .barra .punto {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #3a3a3a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .texto { color: #5a5a5a; font-size: 1rem; line-height: 1.7; }
+    .texto p { margin-bottom: 15px; }
+
+    .creencias {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .creencia {
+      flex: 1 1 200px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+
+    .creencia h4 { color: #3a3a3a; font-size: 1rem; margin-bottom: 5px; }
+
+    .creencia p { font-size: 0.85rem; color: #8a8a8a; }
+
+    .creencia.activa {
+      border-color: #FFCA75;
+      background-color: #fff4e0;
+    }
+
+    .creencia.activa h4 { color: #DA890F; }
+
+    /* Cuerpo completo */
+    .cuerpo-completo {
+      text-align: center;
+    }
+
+    .cuerpo-completo img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Paleta de colores */
+    .paleta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .color-cuadro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .color-cuadro .cuadro {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .color-cuadro .lineart {
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .color-info { font-size: 0.9rem; }
+    .color-info .codigo { font-family: 'Consolas', monospace; color: #3a3a3a; font-weight: 600; }
+    .color-info .lineart-label { color: #8a8a8a; font-size: 0.8rem; }
+
+    .lista {
+      margin: 0;
+      padding-left: 20px;
+      color: #5a5a5a;
+    }
+
+    .lista li { margin-bottom: 8px; }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #9a9a9a;
+      font-size: 0.9rem;
+      border-top: 1px solid #e0dcd4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="avatar"><img src="imagenes/gifs/wahid.gif" alt=""><span>1</span></div>
+    <h1>Nº1 · WAHID</h1>
+    <p>Gata con plumas — Villano</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="personajes.html">← Volver a personajes</a>
+
+    <div class="seccion-ficha">
+      <h2>Datos básicos</h2>
+      <div class="datos-basicos">
+        <div class="dato"><strong>Nombre</strong><span>Wahid (Nº1)</span></div>
+        <div class="dato"><strong>Especie</strong><span>Gata con plumas en la cola y alas</span></div>
+        <div class="dato"><strong>Rol</strong><span>Villano</span></div>
+        <div class="dato"><strong>Ocupación</strong><span>Hermana menor de Gabriel</span></div>
+        <div class="dato"><strong>Alianza</strong><span>Gabriel y sus hermanitas</span></div>
+        <div class="dato"><strong>Familia</strong><span>Gabriel (hermano) · Alfa-Kit · Cinco hermanitas</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Resumen</h2>
+      <p class="texto">Wahid, el experimento Nº1, fue la primera creación biológica de Gabriel que no era un robot: un intento deliberado de crear vida para tener una hermana. Es una gata pequeña, de pelaje suave y ojos grandes, con plumas en la cola, alas en lugar de orejas y un par de alas extra en la espalda. No puede hablar, solo maullar, y tiene discapacidades físicas que Gabriel no previó. Es la más dulce de las seis hermanitas: no mata, no captura, no destruye. Es el refugio silencioso de Gabriel, la que lo calma cuando tiene rabietas.</p>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Personalidad</h2>
+      <div class="personalidad">
+        <div class="barra">
+          <div class="extremos"><span class="izq">Amable</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Extrovertido</span><span class="der">Introvertido</span></div>
+          <div class="track"><div class="punto" style="left: 75%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Pacífico</span><span class="der">Violento</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Ordenado</span><span class="der">Caótico</span></div>
+          <div class="track"><div class="punto" style="left: 60%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Confiado</span><span class="der">Inseguro</span></div>
+          <div class="track"><div class="punto" style="left: 70%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Calmado</span><span class="der">Ansioso</span></div>
+          <div class="track"><div class="punto" style="left: 25%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Honesto</span><span class="der">Engañoso</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Líder</span><span class="der">Seguidor</span></div>
+          <div class="track"><div class="punto" style="left: 85%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Educado</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Controlado</span><span class="der">Salvaje</span></div>
+          <div class="track"><div class="punto" style="left: 35%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Político</span><span class="der">Indiferente</span></div>
+          <div class="track"><div class="punto" style="left: 90%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Bueno</span><span class="der">Malo</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Stats</h2>
+      <div class="stats">
+        <div class="stat"><span class="nombre">Inteligencia</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Creatividad</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Poder</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Agresión</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Confianza</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Ansiedad</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Paciencia</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Empatía</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Amor</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Modestia</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Humor</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Felicidad</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Calma</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Fuerza</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Salud</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Pasión</span><span class="puntos">●●●○○</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Creencias</h2>
+      <div class="creencias">
+        <div class="creencia">
+          <h4>Oliverismo</h4>
+          <p>No seleccionado</p>
+        </div>
+        <div class="creencia">
+          <h4>Satanismo</h4>
+          <p>No seleccionado</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Cuerpo completo</h2>
+      <div class="cuerpo-completo">
+        <img src="imagenes/wahid_full.png" alt="Cuerpo completo de Wahid">
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Paleta de colores</h2>
+      <div class="paleta">
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #FFFFFF;"></div>
+            <div class="lineart" style="background-color: #B0B0B0;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#FFFFFF</div>
+            <div class="lineart-label">Blanco</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #000000;"></div>
+            <div class="lineart" style="background-color: #333333;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#000000</div>
+            <div class="lineart-label">Negro</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #FFCA75;"></div>
+            <div class="lineart" style="background-color: #DA890F;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#FFCA75</div>
+            <div class="lineart-label">Amarillo (representativo)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Historia</h2>
+      <div class="texto">
+        <p>El experimento Nº1 fue la primera creación biológica de Gabriel que no era un robot. No fue un accidente ni un error de cálculo: fue un intento deliberado de crear vida a partir de material genético modificado. Gabriel quería una hermana, algo que no lo juzgara, que no le exigiera ser normal, que no lo abandonara como sus padres. Alfa-Kit le advirtió que no estaba listo, que criar a un ser vivo no era lo mismo que programar una máquina. Pero Gabriel no escuchó. Y así nació el experimento Nº1: una gata pequeña, de pelaje suave y ojos grandes, con plumas en la cola, alas en lugar de orejas y un par de alas extra en la espalda.</p>
+        <p>Desde el momento en que abrió los ojos, Nº1 miró a Gabriel como si él fuera su mundo. No lloró, no gritó, no tuvo miedo. Solo lo miró y sonrió. Y Gabriel, por primera vez en mucho tiempo, sintió algo que no sabía nombrar. No era poder, ni control, ni curiosidad científica. Era ternura. Era la sensación de que alguien lo veía y no quería huir. La llamó Nº1 porque no sabía cómo nombrarla de otra forma. No era un nombre, era una categoría. Pero para ella, era suficiente.</p>
+        <p>Nº1 creció rápido, como todos los experimentos de Gabriel. Pero había algo diferente en ella: no podía hablar, solo maullar, y no podía caminar erguida, solo a cuatro patas. Tenía discapacidades físicas que Gabriel no había previsto, pero no le importó. La cuidó, la alimentó, la bañó, la protegió. Le enseñó a moverse, a jugar, a estar cerca de él sin miedo. Y ella aprendió a quererlo, a esperarlo, a buscarlo cuando no estaba. Aprendió a ser su hermana, aunque él no supiera cómo ser un hermano.</p>
+        <p>Wahid no es una luchadora como las otras. No mata, no captura, no destruye. Es la más dulce de las seis, la que se acerca a Gabriel cuando está frustrado, la que se acurruca en su regazo cuando él trabaja, la que lo mira con ojos grandes cuando él se enoja. Es su refugio silencioso, su recordatorio de que no todo lo que crea tiene que ser útil o peligroso. A veces, cuando Gabriel tiene una rabieta, es Wahid la que se acerca y apoya la cabeza en su pierna. Y Gabriel, sin decir nada, le acaricia las plumas de la cola. Y se calma.</p>
+        <p>Wahid no entiende de política, de poder, de misiones. No entiende por qué Gabriel a veces se va y no vuelve por horas, ni por qué a veces huele a sangre o a miedo. Solo entiende que él es su hermano, que la cuida, que la quiere. Y eso le basta. Es feliz con lo poco que tiene: un rincón cálido en el laboratorio, la mano de Gabriel acariciando su cabeza y la compañía de sus hermanas. No sabe que fue creada para ser perfecta y salió "defectuosa", ni que el mundo la vería como un monstruo. Solo sabe que está viva, que es querida, y que su hermano mayor siempre vuelve por ella.</p>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Datos adicionales</h2>
+      <ul class="lista">
+        <li>Primera creación biológica de Gabriel que no era un robot.</li>
+        <li>Gata con plumas en la cola, alas en lugar de orejas y alas extra en la espalda.</li>
+        <li>No puede hablar, solo maullar; camina a cuatro patas.</li>
+        <li>Es la más dulce de las seis hermanitas.</li>
+        <li>No mata, no captura, no destruye.</li>
+        <li>Es el refugio silencioso y emocional de Gabriel.</li>
+        <li>Su nombre es una categoría, no un nombre propio.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    Wahid (Nº1) - Diseñado por Fanimations 2022
+  </footer>
+
+</body>
+</html>
