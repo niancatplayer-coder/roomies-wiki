@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Noticias y Eventos</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f6f8f4;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #c9d6c7, #e8f0e8);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #8aa88a;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #4a6a4a;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #5a7a5a;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .volver:hover { color: #6b8f6b; }
+
+    .boton-editor {
+      display: inline-block;
+      background-color: #4a6a4a;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-bottom: 25px;
+      transition: background-color 0.2s;
+    }
+
+    .boton-editor:hover { background-color: #3a5a3a; }
+
+    .panel-editor {
+      display: none;
+      background-color: #ffffff;
+      border: 2px solid #c9d6c7;
+      border-radius: 15px;
+      padding: 25px 30px;
+      margin-bottom: 35px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .panel-editor.visible { display: block; }
+
+    .panel-editor h2 {
+      color: #4a6a4a;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
+
+    .panel-editor label {
+      display: block;
+      font-size: 0.9rem;
+      color: #6a6a7a;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .panel-editor input[type="password"],
+    .panel-editor input[type="text"],
+    .panel-editor textarea,
+    .panel-editor select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      margin-bottom: 15px;
+      background-color: #fafafa;
+    }
+
+    .panel-editor input:focus,
+    .panel-editor textarea:focus,
+    .panel-editor select:focus {
+      outline: none;
+      border-color: #8aa88a;
+    }
+
+    .panel-editor input[type="file"] {
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+
+    .panel-editor .boton-subir {
+      background-color: #6b8f6b;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 22px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .panel-editor .boton-subir:hover { background-color: #5a7a5a; }
+
+    .panel-editor .boton-subir:disabled {
+      background-color: #c0c0c0;
+      cursor: not-allowed;
+    }
+
+    .mensaje-editor {
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .mensaje-editor.error {
+      display: block;
+      background-color: #fde8e8;
+      color: #a04040;
+      border: 1px solid #f0c0c0;
+    }
+
+    .mensaje-editor.ok {
+      display: block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c0e8c8;
+    }
+
+    .editor-info {
+      font-size: 0.85rem;
+      color: #8a8a9a;
+      margin-bottom: 15px;
+    }
+
+    /* Lista de publicaciones */
+    .lista-noticias {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .publicacion {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 25px 28px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      position: relative;
+      border-left: 5px solid #8aa88a;
+    }
+
+    .publicacion.categoria-evento {
+      border-left-color: #d49d5c;
+    }
+
+    .publicacion .etiqueta {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ffffff;
+      background-color: #6b8f6b;
+      border-radius: 20px;
+      padding: 3px 12px;
+      margin-bottom: 10px;
+    }
+
+    .publicacion.categoria-evento .etiqueta {
+      background-color: #d49d5c;
+    }
+
+    .publicacion h2 {
+      font-size: 1.3rem;
+      color: #3a3a4a;
+      margin-bottom: 6px;
+    }
+
+    .publicacion .fecha {
+      font-size: 0.85rem;
+      color: #9a9a9a;
+      margin-bottom: 12px;
+    }
+
+    .publicacion .contenido {
+      font-size: 0.95rem;
+      color: #5a5a5a;
+      white-space: pre-wrap;
+      margin: 0;
+      padding: 0;
+    }
+
+    .publicacion img {
+      max-width: 100%;
+      max-height: 350px;
+      border-radius: 10px;
+      margin-top: 15px;
+      display: block;
+    }
+
+    .publicacion .borrar {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background-color: rgba(200, 60, 60, 0.9);
+      color: #ffffff;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .publicacion .borrar.visible { display: flex; }
+
+    .publicacion .borrar:hover { background-color: #b03030; }
+
+    .vacio {
+      text-align: center;
+      color: #9a9a9a;
+      font-size: 1rem;
+      padding: 60px 20px;
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #9a9a9a;
+      font-size: 0.9rem;
+      border-top: 1px solid #e0dcd4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <h1>NOTICIAS Y EVENTOS</h1>
+    <p>Novedades del proyecto Roomies</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="index.html">← Volver al inicio</a>
+
+    <button class="boton-editor" id="boton-editor">🔧 Modo editor</button>
+
+    <!-- PANEL DEL EDITOR -->
+    <div class="panel-editor" id="panel-editor">
+      <h2>🔧 Modo editor</h2>
+
+      <!-- Paso 1: contraseña -->
+      <div id="paso-login">
+        <label for="password">Contraseña de editor</label>
+        <input type="password" id="password" placeholder="Escribí la contraseña...">
+        <button class="boton-subir" id="boton-login">Entrar</button>
+        <div class="mensaje-editor" id="mensaje-login"></div>
+      </div>
+
+      <!-- Paso 2: publicar -->
+      <div id="paso-publicar" style="display: none;">
+        <p class="editor-info">Sesión iniciada. Publicá una noticia o evento nuevo, o borrá los existentes con la ×.</p>
+
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" placeholder="Ej: ¡Nuevo capítulo de Roomies!">
+
+        <label for="categoria">Categoría</label>
+        <select id="categoria">
+          <option value="noticia">📰 Noticia</option>
+          <option value="evento">📅 Evento</option>
+        </select>
+
+        <label for="fecha-evento">Fecha del evento (opcional, solo si es un evento)</label>
+        <input type="text" id="fecha-evento" placeholder="Ej: 20 de septiembre, 18:00">
+
+        <label for="contenido">Contenido</label>
+        <textarea id="contenido" rows="5" placeholder="Escribí la publicación..."></textarea>
+
+        <label for="archivo">Imagen (opcional — se comprime sola y se guarda gratis)</label>
+        <input type="file" id="archivo" accept="image/*">
+
+        <button class="boton-subir" id="boton-publicar">📤 Publicar</button>
+        <div class="mensaje-editor" id="mensaje-publicar"></div>
+
+        <button class="boton-subir" id="boton-cerrar-sesion" style="background-color: #a0a0a0; margin-top: 15px;">Cerrar sesión de editor</button>
+      </div>
+    </div>
+
+    <!-- LISTA DE PUBLICACIONES -->
+    <div class="lista-noticias" id="lista-noticias">
+      <div class="vacio">Cargando publicaciones...</div>
+    </div>
+
+  </div>
+
+  <footer>
+    Roomies Wiki — Noticias y Eventos
+  </footer>
+
+  <!-- 🔥 FIREBASE (base de datos gratis) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script>
+    // ⚙️ CONFIGURACIÓN DE FIREBASE (tus datos)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDrX8lGd73bI0TVY68YSK1bvvCppspsSQ4",
+      authDomain: "roomies-wiki.firebaseapp.com",
+      databaseURL: "https://roomies-wiki-default-rtdb.firebaseio.com",
+      projectId: "roomies-wiki",
+      storageBucket: "roomies-wiki.firebasestorage.app",
+      messagingSenderId: "865809094565",
+      appId: "1:865809094565:web:8aee3c4edf3c4dd6af3a4c",
+      measurementId: "G-HSC7RLSC4M"
+    };
+
+    // 🔑 CONTRASEÑA DEL EDITOR — ¡CAMBIALA!
+    const CONTRASENA_EDITOR = 'roomies-admin';
+
+    let db = null;
+    let firebaseListo = false;
+
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.database();
+      firebaseListo = true;
+    } catch (e) {
+      console.log('Firebase no pudo inicializarse:', e);
+    }
+
+    let modoEditor = false;
+
+    // ---------- COMPRIMIR IMAGEN (canvas) ----------
+
+    function redimensionarImagen(archivo) {
+      return new Promise((resolve, reject) => {
+        const lector = new FileReader();
+        lector.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            const MAX = 1000;
+            let ancho = img.width;
+            let alto = img.height;
+            if (ancho > MAX || alto > MAX) {
+              const escala = Math.min(MAX / ancho, MAX / alto);
+              ancho = Math.round(ancho * escala);
+              alto = Math.round(alto * escala);
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = ancho;
+            canvas.height = alto;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, ancho, alto);
+            const esPng = archivo.type === 'image/png';
+            const dataUrl = esPng ? canvas.toDataURL('image/png') : canvas.toDataURL('image/jpeg', 0.82);
+            resolve(dataUrl);
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        lector.onerror = reject;
+        lector.readAsDataURL(archivo);
+      });
+    }
+
+    // ---------- ESCAPAR TEXTO (para que no rompa el HTML) ----------
+
+    function escapar(texto) {
+      return (texto || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // ---------- FORMATEAR FECHA ----------
+
+    function formatearFecha(timestamp) {
+      const d = new Date(timestamp);
+      const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+      const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+      return dias[d.getDay()] + ' ' + d.getDate() + ' de ' + meses[d.getMonth()] + ' de ' + d.getFullYear();
+    }
+
+    // ---------- CARGAR PUBLICACIONES ----------
+
+    function cargarNoticias() {
+      if (!firebaseListo) {
+        document.getElementById('lista-noticias').innerHTML = '<div class="vacio">No se pudo conectar con Firebase.</div>';
+        return;
+      }
+
+      db.ref('noticias').on('value', snap => {
+        const data = snap.val();
+        const contenedor = document.getElementById('lista-noticias');
+        contenedor.innerHTML = '';
+
+        if (!data) {
+          contenedor.innerHTML = '<div class="vacio">Todavía no hay publicaciones. ¡Creá la primera desde el modo editor!</div>';
+          return;
+        }
+
+        const ids = Object.keys(data).sort((a, b) => (data[b].fecha || 0) - (data[a].fecha || 0));
+
+        ids.forEach(id => {
+          const item = data[id];
+          const esEvento = item.categoria === 'evento';
+          const pub = document.createElement('div');
+          pub.className = 'publicacion' + (esEvento ? ' categoria-evento' : '');
+          pub.dataset.id = id;
+
+          let html = '';
+          html += '<span class="etiqueta">' + (esEvento ? '📅 Evento' : '📰 Noticia') + '</span>';
+          html += '<h2>' + escapar(item.titulo) + '</h2>';
+          html += '<div class="fecha">' + formatearFecha(item.fecha) + '</div>';
+          if (item.fechaEvento) {
+            html += '<div class="fecha">📅 Fecha del evento: ' + escapar(item.fechaEvento) + '</div>';
+          }
+          html += '<div class="contenido">' + escapar(item.contenido) + '</div>';
+          if (item.url) {
+            html += '<img src="' + item.url + '" alt="' + escapar(item.titulo) + '">';
+          }
+          html += '<button class="borrar" title="Borrar publicación">×</button>';
+
+          pub.innerHTML = html;
+
+          const botonBorrar = pub.querySelector('.borrar');
+          if (modoEditor) botonBorrar.classList.add('visible');
+
+          botonBorrar.addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (confirm('¿Borrar esta publicación?')) {
+              db.ref('noticias/' + id).remove();
+            }
+          });
+
+          contenedor.appendChild(pub);
+        });
+      });
+    }
+
+    // ---------- MODO EDITOR ----------
+
+    document.getElementById('boton-editor').addEventListener('click', function () {
+      document.getElementById('panel-editor').classList.toggle('visible');
+    });
+
+    document.getElementById('boton-login').addEventListener('click', function () {
+      const pass = document.getElementById('password').value;
+      const mensaje = document.getElementById('mensaje-login');
+
+      if (pass === racoonplayer123) {
+        document.getElementById('paso-login').style.display = 'none';
+        document.getElementById('paso-publicar').style.display = 'block';
+        mensaje.className = 'mensaje-editor';
+        mensaje.textContent = '';
+        modoEditor = true;
+        document.querySelectorAll('.borrar').forEach(b => b.classList.add('visible'));
+      } else {
+        mensaje.className = 'mensaje-editor error';
+        mensaje.textContent = 'Contraseña incorrecta.';
+      }
+    });
+
+    document.getElementById('boton-cerrar-sesion').addEventListener('click', function () {
+      document.getElementById('paso-login').style.display = 'block';
+      document.getElementById('paso-publicar').style.display = 'none';
+      document.getElementById('password').value = '';
+      modoEditor = false;
+      document.querySelectorAll('.borrar').forEach(b => b.classList.remove('visible'));
+    });
+
+    // ---------- PUBLICAR ----------
+
+    document.getElementById('boton-publicar').addEventListener('click', async function () {
+      const titulo = document.getElementById('titulo').value.trim();
+      const categoria = document.getElementById('categoria').value;
+      const fechaEvento = document.getElementById('fecha-evento').value.trim();
+      const contenido = document.getElementById('contenido').value.trim();
+      const archivo = document.getElementById('archivo').files[0];
+      const mensaje = document.getElementById('mensaje-publicar');
+      const boton = this;
+
+      if (!titulo) {
+        mensaje.className = 'mensaje-editor error';
+        mensaje.textContent = 'Poné un título para la publicación.';
+        return;
+      }
+
+      if (!contenido) {
+        mensaje.className = 'mensaje-editor error';
+        mensaje.textContent = 'Escribí algo en el contenido.';
+        return;
+      }
+
+      mensaje.className = 'mensaje-editor';
+      mensaje.textContent = '';
+      boton.disabled = true;
+      boton.textContent = '⏳ Publicando...';
+
+      try {
+        let url = null;
+        if (archivo) {
+          url = await redimensionarImagen(archivo);
+        }
+
+        const nuevoId = db.ref('noticias').push().key;
+        await db.ref('noticias/' + nuevoId).set({
+          titulo: titulo,
+          categoria: categoria,
+          fechaEvento: fechaEvento,
+          contenido: contenido,
+          url: url,
+          fecha: Date.now()
+        });
+
+        mensaje.className = 'mensaje-editor ok';
+        mensaje.textContent = '¡Publicado con éxito! 🎉';
+        document.getElementById('titulo').value = '';
+        document.getElementById('fecha-evento').value = '';
+        document.getElementById('contenido').value = '';
+        document.getElementById('archivo').value = '';
+      } catch (err) {
+        console.log('Error al publicar:', err);
+        mensaje.className = 'mensaje-editor error';
+        mensaje.textContent = 'Hubo un error al publicar. Revisá que la base de datos esté en modo prueba.';
+      } finally {
+        boton.disabled = false;
+        boton.textContent = '📤 Publicar';
+      }
+    });
+
+    // ---------- INICIAR ----------
+
+    cargarNoticias();
+  </script>
+
+</body>
+</html>
