@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Angel</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #fdfaf3;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #F5E6C8, #C9A227);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #8a6d1f;
+    }
+
+    .banner .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #C9A227;
+      color: #ffffff;
+      font-size: 2.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .banner .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #6b5314;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #7a5f1a;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .volver:hover { color: #C9A227; }
+
+    .seccion-ficha {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .seccion-ficha h2 {
+      color: #3a3a3a;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #d8d8d8;
+      padding-bottom: 10px;
+    }
+
+    .datos-basicos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .dato {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .dato strong {
+      color: #3a3a3a;
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .dato span { font-size: 1rem; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .stat .nombre { color: #3a3a3a; font-size: 0.95rem; }
+    .stat .puntos { color: #9a9a9a; letter-spacing: 3px; font-size: 1.1rem; }
+
+    /* Barras de personalidad con dos extremos */
+    .personalidad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .barra { padding: 10px 0; border-bottom: 1px solid #eaeaea; }
+
+    .barra .extremos {
+      display: flex;
+      justify-content: space-between;
+      color: #3a3a3a;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .barra .extremos .izq { color: #3a3a3a; }
+    .barra .extremos .der { color: #8a8a8a; }
+
+    .barra .track {
+      position: relative;
+      background: linear-gradient(to right, #3a3a3a, #e0e0e0, #8a8a8a);
+      border-radius: 10px;
+      height: 8px;
+    }
+
+    .barra .punto {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #3a3a3a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .texto { color: #5a5a5a; font-size: 1rem; line-height: 1.7; }
+    .texto p { margin-bottom: 15px; }
+
+    .creencias {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .creencia {
+      flex: 1 1 200px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+
+    .creencia h4 { color: #3a3a3a; font-size: 1rem; margin-bottom: 5px; }
+
+    .creencia p { font-size: 0.85rem; color: #8a8a8a; }
+
+    .creencia.activa {
+      border-color: #C9A227;
+      background-color: #fdf6e3;
+    }
+
+    .creencia.activa h4 { color: #8a6d1f; }
+
+    /* Cuerpo completo */
+    .cuerpo-completo {
+      text-align: center;
+    }
+
+    .cuerpo-completo img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Paleta de colores */
+    .paleta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .color-cuadro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .color-cuadro .cuadro {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .color-cuadro .lineart {
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .color-info { font-size: 0.9rem; }
+    .color-info .codigo { font-family: 'Consolas', monospace; color: #3a3a3a; font-weight: 600; }
+    .color-info .lineart-label { color: #8a8a8a; font-size: 0.8rem; }
+
+    .lista {
+      margin: 0;
+      padding-left: 20px;
+      color: #5a5a5a;
+    }
+
+    .lista li { margin-bottom: 8px; }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #9a9a9a;
+      font-size: 0.9rem;
+      border-top: 1px solid #efe3c4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="avatar"><img src="imagenes/gifs/angel.gif" alt=""><span>A</span></div>
+    <h1>ANGEL</h1>
+    <p>Ser celestial andrógino — Secundario</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="personajes.html">← Volver a personajes</a>
+
+    <div class="seccion-ficha">
+      <h2>Datos básicos</h2>
+      <div class="datos-basicos">
+        <div class="dato"><strong>Nombre</strong><span>Angel</span></div>
+        <div class="dato"><strong>Especie</strong><span>Ser celestial (creación perfecta de Oliver)</span></div>
+        <div class="dato"><strong>Género</strong><span>Andrógino</span></div>
+        <div class="dato"><strong>Rol</strong><span>Secundario</span></div>
+        <div class="dato"><strong>Ocupación</strong><span>Secretario del cielo · Estabilizador de Oliver</span></div>
+        <div class="dato"><strong>Alianza</strong><span>Cielo</span></div>
+        <div class="dato"><strong>Familia</strong><span>Oliver (creador)</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Resumen</h2>
+      <p class="texto">Angel fue la creación perfecta de Oliver. No nació ni fue concebido: fue creado para entenderlo, cuidarlo y estabilizarlo. Es un ser andrógino de belleza etérea, con alas grandes y suaves, y una presencia que calma cualquier habitación. Extremadamente débil físicamente, su propósito es servir a Oliver como secretario, organizador y ancla emocional. Es la única persona capaz de calmar sus fragmentos cuando las personalidades lo arrastran.</p>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Personalidad</h2>
+      <div class="personalidad">
+        <div class="barra">
+          <div class="extremos"><span class="izq">Amable</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 5%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Extrovertido</span><span class="der">Introvertido</span></div>
+          <div class="track"><div class="punto" style="left: 75%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Pacífico</span><span class="der">Violento</span></div>
+          <div class="track"><div class="punto" style="left: 5%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Ordenado</span><span class="der">Caótico</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Confiado</span><span class="der">Inseguro</span></div>
+          <div class="track"><div class="punto" style="left: 65%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Calmado</span><span class="der">Ansioso</span></div>
+          <div class="track"><div class="punto" style="left: 30%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Honesto</span><span class="der">Engañoso</span></div>
+          <div class="track"><div class="punto" style="left: 5%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Líder</span><span class="der">Seguidor</span></div>
+          <div class="track"><div class="punto" style="left: 75%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Educado</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 5%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Controlado</span><span class="der">Salvaje</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Político</span><span class="der">Indiferente</span></div>
+          <div class="track"><div class="punto" style="left: 50%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Bueno</span><span class="der">Malo</span></div>
+          <div class="track"><div class="punto" style="left: 5%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Stats</h2>
+      <div class="stats">
+        <div class="stat"><span class="nombre">Inteligencia</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Creatividad</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Poder</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Agresión</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Confianza</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Ansiedad</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Paciencia</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Empatía</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Amor</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Modestia</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Humor</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Felicidad</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Calma</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Fuerza</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Salud</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Pasión</span><span class="puntos">●●●○○</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Creencias</h2>
+      <div class="creencias">
+        <div class="creencia activa">
+          <h4>Oliverismo</h4>
+          <p>Devoto absoluto</p>
+        </div>
+        <div class="creencia">
+          <h4>Satanismo</h4>
+          <p>No seleccionado</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Cuerpo completo</h2>
+      <div class="cuerpo-completo">
+        <img src="imagenes/angel_full.png" alt="Cuerpo completo de Angel">
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Paleta de colores</h2>
+      <div class="paleta">
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #F5E6C8;"></div>
+            <div class="lineart" style="background-color: #C9A227;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#F5E6C8</div>
+            <div class="lineart-label">Crema dorada (base) · Lineart: #C9A227</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #C9A227;"></div>
+            <div class="lineart" style="background-color: #8a6d1f;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#C9A227</div>
+            <div class="lineart-label">Dorado (muchos toques) · Lineart: #8a6d1f</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #2B2728;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#2B2728</div>
+            <div class="lineart-label">Negro (toques mínimos) · Sin lineart</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Historia</h2>
+      <div class="texto">
+        <p>Angel fue la creación perfecta de Oliver. No nació, no fue concebido, no fue parido. Fue creado. Oliver, en su infinita soledad divina, quiso crear a alguien que lo entendiera, que lo cuidara, que lo estabilizara. Y así nació Angel: un ser andrógino, de belleza etérea, con alas grandes y suaves, y una presencia que calmaba cualquier habitación. Oliver lo miró por primera vez y supo que había creado algo puro. Algo que no tenía la malicia del Diablo, ni el caos de sus otras creaciones. Angel era la perfección hecha carne. O casi.</p>
+        <p>Porque Angel es extremadamente débil físicamente. No puede correr largas distancias. No puede cargar peso. No puede defenderse de un ataque directo. Su cuerpo no está hecho para la guerra ni para la resistencia. Está hecho para la paz, para la calma, para la estabilidad. Y eso, en un mundo como el suyo, lo hace vulnerable. Oliver lo sabe. Por eso lo protege. Por eso lo mantiene cerca. Por eso, cuando Angel no está, Oliver se desestabiliza por completo. Porque Angel no es solo su creación. Es su secretario, su organizador, su ancla emocional. Es la única persona que puede calmar sus fragmentos, que puede hablarle con suavidad cuando el caos lo consume, que puede recordarle quién es cuando las personalidades lo arrastran.</p>
+        <p>Angel no tiene ambiciones. No busca poder, no busca control, no busca nada para sí mismo. Su propósito es servir a Oliver. Cuidarlo. Estabilizarlo. Asegurarse de que el cielo no se derrumbe mientras su creador se pierde en sus propias mentes. Es un trabajo agotador. Un trabajo que nadie más podría hacer. Pero Angel lo hace sin quejarse. Sin pedir nada a cambio. Sin esperar recompensa. Porque ama a Oliver. No como un súbdito ama a un rey, ni como un hijo ama a un padre. Lo ama como se ama a alguien que es parte de ti. Como se ama a alguien sin quien no sabrías existir.</p>
+        <p>Pero Angel no es feliz. No del todo. Porque ser la creación perfecta es una carga. Ser el estabilizador de un dios es agotador. Ser el único que puede calmar a Oliver es solitario. Angel no tiene amigos. No tiene amantes. No tiene a nadie con quien compartir sus propios miedos, sus propias dudas, sus propios deseos. Su vida entera gira en torno a Oliver. Y aunque lo ama, a veces se pregunta si eso es suficiente. Si él, como ser individual, tiene algún valor más allá de su función. Si algún día, cuando Oliver ya no lo necesite, alguien lo querrá por lo que es y no por lo que hace.</p>
+        <p>El Diablo está obsesionado con Angel. No porque lo desee, sino porque sabe que Angel es la clave para controlar a Oliver. Si el Diablo tiene a Angel, tiene a Oliver. Si tiene a Oliver, tiene el cielo. Por eso, más adelante en el lore, el Diablo y Gabriel logran secuestrarlo. Y cuando Angel desaparece, Oliver se desmorona. Se fragmenta. Se pierde. El cielo se debilita. Y Angel, atrapado, solo puede esperar. Esperar a que alguien lo rescate. Esperar a que Oliver se estabilice. Esperar a que el mundo no se derrumbe mientras él no está ahí para sostenerlo.</p>
+        <p>Angel no es un guerrero. No es un líder. No es un héroe. Es un ser creado para cuidar, para calmar, para sostener. Es la mano que acaricia la cabeza de un dios caótico. Es la voz que susurra "todo está bien" cuando todo está mal. Es el ancla que evita que el cielo se caiga. Y aunque su vida no es fácil, aunque su cuerpo es frágil, aunque su corazón a veces se pregunta si hay algo más para él, Angel no cambiaría su lugar. Porque Oliver lo necesita. Porque el cielo lo necesita. Porque, aunque nadie se lo diga, él sabe que su existencia tiene sentido. Aunque solo sea para una persona. Aunque solo sea para un dios. Aunque solo sea para Oliver.</p>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Datos adicionales</h2>
+      <ul class="lista">
+        <li>Creación perfecta de Oliver; no nació, fue creado.</li>
+        <li>Ser andrógino de belleza etérea con alas grandes y suaves.</li>
+        <li>Extremadamente débil físicamente; no puede defenderse.</li>
+        <li>Secretario, organizador y ancla emocional de Oliver.</li>
+        <li>La única persona que puede calmar sus fragmentos.</li>
+        <li>Es la clave que el Diablo usa para controlar a Oliver.</li>
+        <li>Secuestrado por el Diablo y Gabriel; su ausencia desmorona a Oliver.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    Angel - Diseñado por Fanimations 2023
+  </footer>
+
+</body>
+</html>

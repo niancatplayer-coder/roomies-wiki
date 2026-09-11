@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Clover</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #fdf3f5;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #F28FBE, #FADDE2);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #A04E74;
+    }
+
+    .banner .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #F28FBE;
+      color: #ffffff;
+      font-size: 2.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .banner .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #8B565C;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #A04E74;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .volver:hover { color: #A04E74; }
+
+    .seccion-ficha {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .seccion-ficha h2 {
+      color: #3a3a3a;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #d8d8d8;
+      padding-bottom: 10px;
+    }
+
+    .datos-basicos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .dato {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .dato strong {
+      color: #3a3a3a;
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .dato span { font-size: 1rem; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .stat .nombre { color: #3a3a3a; font-size: 0.95rem; }
+    .stat .puntos { color: #9a9a9a; letter-spacing: 3px; font-size: 1.1rem; }
+
+    /* Barras de personalidad con dos extremos */
+    .personalidad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .barra { padding: 10px 0; border-bottom: 1px solid #eaeaea; }
+
+    .barra .extremos {
+      display: flex;
+      justify-content: space-between;
+      color: #3a3a3a;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .barra .extremos .izq { color: #3a3a3a; }
+    .barra .extremos .der { color: #8a8a8a; }
+
+    .barra .track {
+      position: relative;
+      background: linear-gradient(to right, #3a3a3a, #e0e0e0, #8a8a8a);
+      border-radius: 10px;
+      height: 8px;
+    }
+
+    .barra .punto {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #3a3a3a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .texto { color: #5a5a5a; font-size: 1rem; line-height: 1.7; }
+    .texto p { margin-bottom: 15px; }
+
+    .creencias {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .creencia {
+      flex: 1 1 200px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+
+    .creencia h4 { color: #3a3a3a; font-size: 1rem; margin-bottom: 5px; }
+
+    .creencia p { font-size: 0.85rem; color: #8a8a8a; }
+
+    .creencia.activa {
+      border-color: #F28FBE;
+      background-color: #fdf0f3;
+    }
+
+    .creencia.activa h4 { color: #A04E74; }
+
+    /* Cuerpo completo */
+    .cuerpo-completo {
+      text-align: center;
+    }
+
+    .cuerpo-completo img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Paleta de colores */
+    .paleta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .color-cuadro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .color-cuadro .cuadro {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .color-cuadro .lineart {
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .color-info { font-size: 0.9rem; }
+    .color-info .codigo { font-family: 'Consolas', monospace; color: #3a3a3a; font-weight: 600; }
+    .color-info .lineart-label { color: #8a8a8a; font-size: 0.8rem; }
+
+    .lista {
+      margin: 0;
+      padding-left: 20px;
+      color: #5a5a5a;
+    }
+
+    .lista li { margin-bottom: 8px; }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #9a9a9a;
+      font-size: 0.9rem;
+      border-top: 1px solid #f0dbe2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="avatar"><img src="imagenes/gifs/clover.gif" alt=""><span>C</span></div>
+    <h1>CLOVER</h1>
+    <p>Coneja rosa — Secundario</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="personajes.html">← Volver a personajes</a>
+
+    <div class="seccion-ficha">
+      <h2>Datos básicos</h2>
+      <div class="datos-basicos">
+        <div class="dato"><strong>Nombre</strong><span>Clover</span></div>
+        <div class="dato"><strong>Especie</strong><span>Coneja (teñida de rosa por ella misma)</span></div>
+        <div class="dato"><strong>Rol</strong><span>Secundario</span></div>
+        <div class="dato"><strong>Trabajo</strong><span>Empleada en tienda de snacks importados</span></div>
+        <div class="dato"><strong>Alianza</strong><span>Independiente</span></div>
+        <div class="dato"><strong>Familia</strong><span>No mencionada</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Resumen</h2>
+      <p class="texto">Clover es una coneja rosa que trabaja en la misma tienda de snacks importados que Wooly. No vive con él, no es su mejor amiga, no forma parte de su círculo íntimo: es, simplemente, su compañera de trabajo. Tuvo un pasado que prefiere olvidar como actriz para adultos, y ahora solo busca estabilidad, un trabajo honesto y ser tratada como una persona normal. Mantiene las distancias como forma de protegerse.</p>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Personalidad</h2>
+      <div class="personalidad">
+        <div class="barra">
+          <div class="extremos"><span class="izq">Amable</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Extrovertido</span><span class="der">Introvertido</span></div>
+          <div class="track"><div class="punto" style="left: 70%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Pacífico</span><span class="der">Violento</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Ordenado</span><span class="der">Caótico</span></div>
+          <div class="track"><div class="punto" style="left: 25%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Confiado</span><span class="der">Inseguro</span></div>
+          <div class="track"><div class="punto" style="left: 75%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Calmado</span><span class="der">Ansioso</span></div>
+          <div class="track"><div class="punto" style="left: 65%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Honesto</span><span class="der">Engañoso</span></div>
+          <div class="track"><div class="punto" style="left: 30%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Líder</span><span class="der">Seguidor</span></div>
+          <div class="track"><div class="punto" style="left: 70%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Educado</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Controlado</span><span class="der">Salvaje</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Político</span><span class="der">Indiferente</span></div>
+          <div class="track"><div class="punto" style="left: 65%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Bueno</span><span class="der">Malo</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Stats</h2>
+      <div class="stats">
+        <div class="stat"><span class="nombre">Inteligencia</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Creatividad</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Poder</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Agresión</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Confianza</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Ansiedad</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Paciencia</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Empatía</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Amor</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Modestia</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Humor</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Felicidad</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Calma</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Fuerza</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Salud</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Pasión</span><span class="puntos">●●●○○</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Creencias</h2>
+      <div class="creencias">
+        <div class="creencia">
+          <h4>Oliverismo</h4>
+          <p>No seleccionado</p>
+        </div>
+        <div class="creencia">
+          <h4>Satanismo</h4>
+          <p>No seleccionado</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Cuerpo completo</h2>
+      <div class="cuerpo-completo">
+        <img src="imagenes/clover_full.png" alt="Cuerpo completo de Clover">
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Paleta de colores</h2>
+      <div class="paleta">
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #FADDE2;"></div>
+            <div class="lineart" style="background-color: #E1A8A8;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#FADDE2</div>
+            <div class="lineart-label">Rosa claro · Lineart: #E1A8A8</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #E1A8A8;"></div>
+            <div class="lineart" style="background-color: #8B565C;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#E1A8A8</div>
+            <div class="lineart¡Clover! 🐰💕 Me encanta que sea rosa porque **ella misma se tiñe** — eso ya dice mucho de su personalidad. Te corrijo un detallito de la paleta: escribiste `#E1ARA8` dos veces, pero "ARA" no es un código válido; asumo que quisiste decir **#E1A8A8** (rosa empolvado), que encaja perfecto entre el rosa claro y el fucsia. Acá va `clover.html` completo:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Clover</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #fdf3f5;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #F28FBE, #FADDE2);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #A04E74;
+    }
+
+    .banner .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #F28FBE;
+      color: #ffffff;
+      font-size: 2.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .banner .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #8B565C;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #A04E74;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .volver:hover { color: #A04E74; }
+
+    .seccion-ficha {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .seccion-ficha h2 {
+      color: #3a3a3a;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #d8d8d8;
+      padding-bottom: 10px;
+    }
+
+    .datos-basicos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .dato {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .dato strong {
+      color: #3a3a3a;
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .dato span { font-size: 1rem; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .stat .nombre { color: #3a3a3a; font-size: 0.95rem; }
+    .stat .puntos { color: #9a9a9a; letter-spacing: 3px; font-size: 1.1rem; }
+
+    /* Barras de personalidad con dos extremos */
+    .personalidad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .barra { padding: 10px 0; border-bottom: 1px solid #eaeaea; }
+
+    .barra .extremos {
+      display: flex;
+      justify-content: space-between;
+      color: #3a3a3a;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .barra .extremos .izq { color: #3a3a3a; }
+    .barra .extremos .der { color: #8a8a8a; }
+
+    .barra .track {
+      position: relative;
+      background: linear-gradient(to right, #3a3a3a, #e0e0e0, #8a8a8a);
+      border-radius: 10px;
+      height: 8px;
+    }
+
+    .barra .punto {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #3a3a3a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .texto { color: #5a5a5a; font-size: 1rem; line-height: 1.7; }
+    .texto p { margin-bottom: 15px; }
+
+    .creencias {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .creencia {
+      flex: 1 1 200px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+
+    .creencia h4 { color: #3a3a3a; font-size: 1rem; margin-bottom: 5px; }
+
+    .creencia p { font-size: 0.85rem; color: #8a8a8a; }
+
+    .creencia.activa {
+      border-color: #F28FBE;
+      background-color: #fdf0f3;
+    }
+
+    .creencia.activa h4 { color: #A04E74; }
+
+    /* Cuerpo completo */
+    .cuerpo-completo {
+      text-align: center;
+    }
+
+    .cuerpo-completo img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Paleta de colores */
+    .paleta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .color-cuadro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .color-cuadro .cuadro {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .color-cuadro .lineart {
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .color-info { font-size: 0.9rem; }
+    .color-info .codigo { font-family: 'Consolas', monospace; color: #3a3a3a; font-weight: 600; }
+    .color-info .lineart-label { color: #8a8a8a; font-size: 0.8rem; }
+
+    .lista {
+      margin: 0;
+      padding-left: 20px;
+      color: #5a5a5a;
+    }
+
+    .lista li { margin-bottom: 8px; }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #9a9a9a;
+      font-size: 0.9rem;
+      border-top: 1px solid #f0dbe2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="avatar"><img src="imagenes/gifs/clover.gif" alt=""><span>C</span></div>
+    <h1>CLOVER</h1>
+    <p>Coneja rosa — Secundario</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="personajes.html">← Volver a personajes</a>
+
+    <div class="seccion-ficha">
+      <h2>Datos básicos</h2>
+      <div class="datos-basicos">
+        <div class="dato"><strong>Nombre</strong><span>Clover</span></div>
+        <div class="dato"><strong>Especie</strong><span>Coneja (teñida de rosa por ella misma)</span></div>
+        <div class="dato"><strong>Rol</strong><span>Secundario</span></div>
+        <div class="dato"><strong>Trabajo</strong><span>Empleada en tienda de snacks importados</span></div>
+        <div class="dato"><strong>Alianza</strong><span>Independiente</span></div>
+        <div class="dato"><strong>Familia</strong><span>No mencionada</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Resumen</h2>
+      <p class="texto">Clover es una coneja rosa que trabaja en la misma tienda de snacks importados que Wooly. No vive con él, no es su mejor amiga, no forma parte de su círculo íntimo: es, simplemente, su compañera de trabajo. Tuvo un pasado que prefiere olvidar como actriz para adultos, y ahora solo busca estabilidad, un trabajo honesto y ser tratada como una persona normal. Mantiene las distancias como forma de protegerse.</p>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Personalidad</h2>
+      <div class="personalidad">
+        <div class="barra">
+          <div class="extremos"><span class="izq">Amable</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Extrovertido</span><span class="der">Introvertido</span></div>
+          <div class="track"><div class="punto" style="left: 70%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Pacífico</span><span class="der">Violento</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Ordenado</span><span class="der">Caótico</span></div>
+          <div class="track"><div class="punto" style="left: 25%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Confiado</span><span class="der">Inseguro</span></div>
+          <div class="track"><div class="punto" style="left: 75%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Calmado</span><span class="der">Ansioso</span></div>
+          <div class="track"><div class="punto" style="left: 65%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Honesto</span><span class="der">Engañoso</span></div>
+          <div class="track"><div class="punto" style="left: 30%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Líder</span><span class="der">Seguidor</span></div>
+          <div class="track"><div class="punto" style="left: 70%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Educado</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Controlado</span><span class="der">Salvaje</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Político</span><span class="der">Indiferente</span></div>
+          <div class="track"><div class="punto" style="left: 65%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Bueno</span><span class="der">Malo</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Stats</h2>
+      <div class="stats">
+        <div class="stat"><span class="nombre">Inteligencia</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Creatividad</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Poder</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Agresión</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Confianza</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Ansiedad</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Paciencia</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Empatía</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Amor</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Modestia</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Humor</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Felicidad</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Calma</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Fuerza</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Salud</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Pasión</span><span class="puntos">●●●○○</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Creencias</h2>
+      <div class="creencias">
+        <div class="creencia">
+          <h4>Oliverismo</h4>
+          <p>No seleccionado</p>
+        </div>
+        <div class="creencia">
+          <h4>Satanismo</h4>
+          <p>No seleccionado</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Cuerpo completo</h2>
+      <div class="cuerpo-completo">
+        <img src="imagenes/clover_full.png" alt="Cuerpo completo de Clover">
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Paleta de colores</h2>
+      <div class="paleta">
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #FADDE2;"></div>
+            <div class="lineart" style="background-color: #E1A8A8;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#FADDE2</div>
+            <div class="lineart-label">Rosa claro · Lineart: #E1A8A8</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #E1A8A8;"></div>
+            <div class="lineart" style="background-color: #8B565C;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#E1A8A8</div>
+            <div class="lineart-label">Rosa empolvado · Lineart: #8B565C</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #F28FBE;"></div>
+            <div class="lineart" style="background-color: #A04E74;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#F28FBE</div>
+            <div class="lineart-label">Rosa fucsia · Lineart: #A04E74</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #2B2728;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#2B2728</div>
+            <div class="lineart-label">Casi negro · Sin lineart</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Historia</h2>
+      <div class="texto">
+        <p>Clover es una coneja rosa que trabaja en la misma tienda de snacks importados que Wooly. No vive con él, no es su mejor amiga, no forma parte de su círculo íntimo. Es, simplemente, su compañera de trabajo. Llega a su turno, cumple con sus tareas, y se va a su casa. No comparten secretos, no comparten cenas, no comparten nada más allá de las horas de trabajo y algún que otro chisme de pasillo. Y eso, para Clover, está bien. Porque Clover no busca amistades profundas ni lazos complicados. Busca estabilidad. Busca un lugar donde nadie la juzgue por su pasado. Busca, en resumen, ser una persona normal.</p>
+        <p>Clover tuvo una vida antes. Una vida que prefiere no recordar. Fue actriz para adultos, trabajó en la industria del entretenimiento nocturno, y conoció de cerca lo que es ser vista como un objeto y no como una persona. Ahora quiere dejar todo eso atrás. Quiere reintegrarse a la sociedad, tener un trabajo honesto, pagar sus cuentas, y quizás, algún día, encontrar a alguien que la quiera por lo que es y no por lo que su cuerpo puede ofrecer. Pero no es fácil. La gente del barrio la reconoce. Los clientes a veces la miran con morbo o con desprecio. Y ella, aunque lo disimula, lo siente. Cada mirada, cada susurro, cada risa a sus espaldas. Por eso se refugia en su trabajo. Por eso mantiene las distancias. Por eso no se acerca demasiado a nadie.</p>
+        <p>Wooly no le pregunta por su pasado. No la juzga. No la mira con lástima ni con morbo. Solo la saluda al llegar, le pasa el inventario, y a veces comparten un té en el descanso. Clover agradece eso más de lo que puede expresar. No necesita un confidente. No necesita un salvador. Solo necesita que alguien la trate como a una persona normal. Y Wooly, aunque es raro, ansioso y está metido en sus propios mundos, la trata exactamente así. Como a una compañera de trabajo. Como a alguien que está ahí para hacer su turno y luego irse a casa.</p>
+        <p>Clover no sabe nada de los videos de Wooly. No sabe nada de sus trajes de maid, ni de sus figuras de colección, ni de sus problemas con Ace. No sabe nada de su vida fuera del trabajo. Y prefiere no saberlo. Porque mantener las distancias es su forma de protegerse. Porque involucrarse demasiado con la gente siempre le ha traído problemas. Porque, después de todo lo que vivió, solo quiere paz. Solo quiere un trabajo tranquilo, un sueldo honesto, y una vida sin sobresaltos. Y si para eso tiene que ser solo una compañera de trabajo, entonces será solo una compañera de trabajo. Sin dramas. Sin lazos. Sin complicaciones.</p>
+        <p>Clover no es un personaje principal. No es una heroína. No es una villana. Es una coneja rosa que trabaja en una tienda de snacks importados, que tiene un pasado que prefiere olvidar, y que solo quiere seguir adelante sin que nadie se lo recuerde. A veces, cuando Wooly no está, se queda un rato extra ordenando las estanterías. No por deber, sino porque le gusta la quietud de la tienda vacía. Le gusta sentirse útil. Le gusta sentir que, por unas horas, es solo Clover, la chica que trabaja en la tienda. No la ex actriz. No la coneja rosa. No la que todos conocen por lo que hizo. Solo Clover. Y eso, para ella, es más que suficiente.</p>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Datos adicionales</h2>
+      <ul class="lista">
+        <li>Compañera de trabajo de Wooly en la tienda de snacks importados.</li>
+        <li>Se tiñe el pelaje de rosa ella misma.</li>
+        <li>Ex actriz para adultos; quiere dejar ese pasado atrás.</li>
+        <li>Mantiene las distancias como forma de protegerse.</li>
+        <li>Wooly la trata como a una persona normal, sin juzgarla.</li>
+        <li>Le gusta la quietud de la tienda vacía cuando termina su turno.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    Clover - Diseñado por Golden Dra-goon 2024
+  </footer>
+
+</body>
+</html>
