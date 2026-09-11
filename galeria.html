@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Galería</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #faf7f2;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #b8a9c9, #e8e2f0);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #8a7aa0;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #5a4a70;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #6a5a80;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .volver:hover { color: #8a7aa0; }
+
+    .boton-editor {
+      display: inline-block;
+      background-color: #5a4a70;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-bottom: 25px;
+      transition: background-color 0.2s;
+    }
+
+    .boton-editor:hover { background-color: #4a3a60; }
+
+    .panel-editor {
+      display: none;
+      background-color: #ffffff;
+      border: 2px solid #b8a9c9;
+      border-radius: 15px;
+      padding: 25px 30px;
+      margin-bottom: 35px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .panel-editor.visible { display: block; }
+
+    .panel-editor h2 {
+      color: #5a4a70;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
+
+    .panel-editor label {
+      display: block;
+      font-size: 0.9rem;
+      color: #6a6a7a;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .panel-editor input[type="password"],
+    .panel-editor input[type="text"],
+    .panel-editor textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      margin-bottom: 15px;
+      background-color: #fafafa;
+    }
+
+    .panel-editor input:focus,
+    .panel-editor textarea:focus {
+      outline: none;
+      border-color: #8a7aa0;
+    }
+
+    .panel-editor input[type="file"] {
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+
+    .panel-editor .boton-subir {
+      background-color: #8a7aa0;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 22px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .panel-editor .boton-subir:hover { background-color: #6a5a80; }
+
+    .panel-editor .boton-subir:disabled {
+      background-color: #c0c0c0;
+      cursor: not-allowed;
+    }
+
+    .mensaje-editor {
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .mensaje-editor.error {
+      display: block;
+      background-color: #fde8e8;
+      color: #a04040;
+      border: 1px solid #f0c0c0;
+    }
+
+    .mensaje-editor.ok {
+      display: block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c0e8c8;
+    }
+
+    .editor-info {
+      font-size: 0.85rem;
+      color: #8a8a9a;
+      margin-bottom: 15px;
+    }
+
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .tarjeta {
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .tarjeta:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.14);
+    }
+
+    .tarjeta img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background-color: #f0f0f0;
+    }
+
+    .tarjeta .info {
+      padding: 12px 14px;
+    }
+
+    .tarjeta .info h3 {
+      font-size: 0.95rem;
+      color: #3a3a4a;
+      margin-bottom: 3px;
+    }
+
+    .tarjeta .info .autor {
+      font-size: 0.8rem;
+      color: #8a8a9a;
+    }
+
+    .tarjeta .borrar {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background-color: rgba(200, 60, 60, 0.9);
+      color: #ffffff;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    .tarjeta .borrar.visible { display: flex; }
+
+    .tarjeta .borrar:hover { background-color: #b03030; }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .lightbox.visible { display: flex; }
+
+    .lightbox-contenido {
+      max-width: 90%;
+      max-height: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-contenido img {
+      max-width: 100%;
+      max-height: 75vh;
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+
+    .lightbox-contenido .lb-info {
+      color: #e8e8e8;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .lightbox-contenido .lb-info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .lightbox-contenido .lb-info p {
+      font-size: 0.9rem;
+      color: #b0b0b0;
+    }
+
+    .lightbox-cerrar {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #ffffff;
+      font-size: 2.2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .lightbox-cerrar:hover { color: #d0d0d0; }
+
+    .vacio {
+      text-align: center;
+      color: #9a9a9a;
+      font-size: 1rem;
+      padding: 60px 20px;
+      grid-column: 1 / -1;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #9a9a9a;
+      font-size: 0.9rem;
+      border-top: 1px solid #e0dcd4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <h1>GALERÍA</h1>
+    <p>Arte conceptual y dibujos de Roomies</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="index.html">← Volver al inicio</a>
+
+    <button class="boton-editor" id="boton-editor">🔧 Modo editor</button>
+
+    <!-- PANEL DEL EDITOR -->
+    <div class="panel-editor" id="panel-editor">
+      <h2>🔧 Modo editor</h2>
+
+      <div id="paso-login">
+        <label for="password">Contraseña de editor</label>
+        <input type="password" id="password" placeholder="Escribí la contraseña...">
+        <button class="boton-subir" id="boton-login">Entrar</button>
+        <div class="mensaje-editor" id="mensaje-login"></div>
+      </div>
+
+      <div id="paso-subir" style="display: none;">
+        <p class="editor-info">
+          Sesión de editor iniciada. Las imágenes se comprimen automáticamente y se guardan gratis en la base de datos (sin pagar nada).<br>
+          <small>Tip: PNG con transparencia se mantiene; los GIF se guardan como imagen estática.</small>
+        </p>
+
+        <label for="archivo">Imagen del dibujo</label>
+        <input type="file" id="archivo" accept="image/*">
+
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" placeholder="Ej: Wooly en su cuarto">
+
+        <label for="autor">Autor</label>
+        <input type="text" id="autor" placeholder="Ej: Brony Boy">
+
+        <label for="descripcion">Descripción (opcional)</label>
+        <textarea id="descripcion" rows="3" placeholder="Contame algo del dibujo..."></textarea>
+
+        <button class="boton-subir" id="boton-subir">📤 Subir dibujo</button>
+        <div class="mensaje-editor" id="mensaje-subir"></div>
+
+        <button class="boton-subir" id="boton-cerrar-sesion" style="background-color: #a0a0a0; margin-top: 15px;">Cerrar sesión de editor</button>
+      </div>
+    </div>
+
+    <!-- CUADRÍCULA -->
+    <div class="galeria" id="galeria">
+      <div class="vacio">Cargando dibujos...</div>
+    </div>
+
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-cerrar" id="lightbox-cerrar">×</button>
+    <div class="lightbox-contenido">
+      <img id="lb-imagen" src="" alt="">
+      <div class="lb-info">
+        <h3 id="lb-titulo"></h3>
+        <p id="lb-autor"></p>
+        <p id="lb-descripcion"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Roomies Wiki — Galería
+  </footer>
+
+  <!-- 🔥 FIREBASE (solo base de datos, sin Storage) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script>
+    // ⚙️ CONFIGURACIÓN DE FIREBASE (tus datos)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDrX8lGd73bI0TVY68YSK1bvvCppspsSQ4",
+      authDomain: "roomies-wiki.firebaseapp.com",
+      databaseURL: "https://roomies-wiki-default-rtdb.firebaseio.com",
+      projectId: "roomies-wiki",
+      storageBucket: "roomies-wiki.firebasestorage.app",
+      messagingSenderId: "865809094565",
+      appId: "1:865809094565:web:8aee3c4edf3c4dd6af3a4c",
+      measurementId: "G-HSC7RLSC4M"
+    };
+
+    // 🔑 CONTRASEÑA DEL EDITOR — ¡CAMBIALA!
+    const racoonplayer123 = 'roomies-admin';
+
+    let db = null;
+    let firebaseListo = false;
+
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.database();
+      firebaseListo = true;
+    } catch (e) {
+      console.log('Firebase no pudo inicializarse:', e);
+    }
+
+    let modoEditor = false;
+
+    // ---------- COMPRIMIR IMAGEN (canvas) ----------
+
+    function redimensionarImagen(archivo) {
+      return new Promise((resolve, reject) => {
+        const lector = new FileReader();
+        lector.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            const MAX = 1000;
+            let ancho = img.width;
+            let alto = img.height;
+            if (ancho > MAX || alto > MAX) {
+              const escala = Math.min(MAX / ancho, MAX / alto);
+              ancho = Math.round(ancho * escala);
+              alto = Math.round(alto * escala);
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = ancho;
+            canvas.height = alto;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, ancho, alto);
+            const esPng = archivo.type === 'image/png';
+            const dataUrl = esPng ? canvas.toDataURL('image/png') : canvas.toDataURL('image/jpeg', 0.82);
+            resolve(dataUrl);
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        lector.onerror = reject;
+        lector.readAsDataURL(archivo);
+      });
+    }
+
+    // ---------- GALERÍA ----------
+
+    function cargarGaleria() {
+      if (!firebaseListo) {
+        document.getElementById('galeria').innerHTML = '<div class="vacio">No se pudo conectar con Firebase.</div>';
+        return;
+      }
+
+      db.ref('galeria').on('value', snap => {
+        const data = snap.val();
+        const contenedor = document.getElementById('galeria');
+        contenedor.innerHTML = '';
+
+        if (!data) {
+          contenedor.innerHTML = '<div class="vacio">Todavía no hay dibujos. ¡Subí el primero desde el modo editor!</div>';
+          return;
+        }
+
+        const ids = Object.keys(data).sort((a, b) => (data[b].fecha || 0) - (data[a].fecha || 0));
+
+        ids.forEach(id => {
+          const item = data[id];
+          const tarjeta = document.createElement('div');
+          tarjeta.className = 'tarjeta';
+          tarjeta.dataset.id = id;
+
+          tarjeta.innerHTML =
+            '<img src="' + item.url + '" alt="' + (item.titulo || 'Dibujo') + '" loading="lazy">' +
+            '<button class="borrar" title="Borrar dibujo">×</button>' +
+            '<div class="info">' +
+              '<h3>' + (item.titulo || 'Sin título') + '</h3>' +
+              '<p class="autor">' + (item.autor || 'Desconocido') + '</p>' +
+            '</div>';
+
+          tarjeta.addEventListener('click', function (e) {
+            if (e.target.classList.contains('borrar')) return;
+            abrirLightbox(item);
+          });
+
+          const botonBorrar = tarjeta.querySelector('.borrar');
+          if (modoEditor) botonBorrar.classList.add('visible');
+
+          botonBorrar.addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (confirm('¿Borrar este dibujo?')) {
+              db.ref('galeria/' + id).remove();
+            }
+          });
+
+          contenedor.appendChild(tarjeta);
+        });
+      });
+    }
+
+    // ---------- LIGHTBOX ----------
+
+    function abrirLightbox(item) {
+      document.getElementById('lb-imagen').src = item.url;
+      document.getElementById('lb-titulo').textContent = item.titulo || 'Sin título';
+      document.getElementById('lb-autor').textContent = item.autor ? 'Por ' + item.autor : '';
+      document.getElementById('lb-descripcion').textContent = item.descripcion || '';
+      document.getElementById('lightbox').classList.add('visible');
+    }
+
+    document.getElementById('lightbox-cerrar').addEventListener('click', function () {
+      document.getElementById('lightbox').classList.remove('visible');
+    });
+
+    document.getElementById('lightbox').addEventListener('click', function (e) {
+      if (e.target === this) {
+        this.classList.remove('visible');
+      }
+    });
+
+    // ---------- MODO EDITOR ----------
+
+    document.getElementById('boton-editor').addEventListener('click', function () {
+      document.getElementById('panel-editor').classList.toggle('visible');
+    });
+
+    document.getElementById('boton-login').addEventListener('click', function () {
+      const pass = document.getElementById('password').value;
+      const mensaje = document.getElementById('mensaje-login');
+
+      if (pass === CONTRASENA_EDITOR) {
+        document.getElementById('paso-login').style.display = 'none';
+        document.getElementById('paso-subir').style.display = 'block';
+        mensaje.className = 'mensaje-editor';
+        mensaje.textContent = '';
+        modoEditor = true;
+        document.querySelectorAll('.borrar').forEach(b => b.classList.add('visible'));
+      } else {
+        mensaje.className = 'mensaje-editor error';
+        mensaje.textContent = 'Contraseña incorrecta.';
+      }
+    });
+
+    document.getElementById('boton-cerrar-sesion').addEventListener('click', function () {
+      document.getElementById('paso-login').style.display = 'block';
+      document.getElementById('paso-subir').style.display = 'none';
+      document.getElementById('password').value = '';
+      modoEditor = false;
+      document.querySelectorAll('.borrar').forEach(b => b.classList.remove('visible'));
+    });
+
+    // ---------- SUBIR DIBUJO ----------
+
+    document.getElementById('boton-subir').addEventListener('click', async function () {
+      const archivo = document.getElementById('archivo').files[0];
+      const titulo = document.getElementById('titulo').value.trim();
+      const autor = document.getElementById('autor').value.trim();
+      const descripcion = document.getElementById('descripcion').value.trim();
+      const mensaje = document.getElementById('mensaje-subir');
+      const boton = this;
+
+      if (!archivo) {
+        mensaje.className = 'mensaje-editor error';
+        mensaje.textContent = 'Elegí una imagen primero.';
+        return;
+      }
+
+      if (!titulo) {
+        mensaje.className = 'mensaje-editor error';
+        mensaje.textContent = 'Poné un título para el dibujo.';
+        return;
+      }
+
+      mensaje.className = 'mensaje-editor';
+      mensaje.textContent = '';
+      boton.disabled = true;
+      boton.textContent = '⏳ Comprimiendo y subiendo...';
+
+      try {
+        // Comprimir la imagen a base64
+        const dataUrl = await redimensionarImagen(archivo);
+
+        // Guardar en la base de datos (gratis)
+        const nuevoId = db.ref('galeria').push().key;
+        await db.ref('galeria/' + nuevoId).set({
+          url: dataUrl,
+          titulo: titulo,
+          autor: autor,
+          descripcion: descripcion,
+          fecha: Date.now()
+        });
+
+        mensaje.className = 'mensaje-editor ok';
+        mensaje.textContent = '¡Dibujo subido con éxito! 🎉';
+        document.getElementById('archivo').value = '';
+        document.getElementById('titulo').value = '';
+        document.getElementById('autor').value = '';
+        document.getElementById('descripcion').value = '';
+      } catch (err) {
+        console.log('Error al subir:', err);
+        mensaje.className = 'mensaje-editor error';
+        mensaje.textContent = 'Hubo un error al subir. Revisá que la base de datos esté en modo prueba.';
+      } finally {
+        boton.disabled = false;
+        boton.textContent = '📤 Subir dibujo';
+      }
+    });
+
+    // ---------- INICIAR ----------
+
+    cargarGaleria();
+  </script>
+
+</body>
+</html>
