@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Nº5 (Nam)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f5f1eb;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #E8B84B, #A9744F);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #6B4423;
+    }
+
+    .banner .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #A9744F;
+      color: #ffffff;
+      font-size: 2.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .banner .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #ffffff;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #fdf3e0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .volver:hover { color: #A9744F; }
+
+    .seccion-ficha {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .seccion-ficha h2 {
+      color: #3a3a3a;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #d8d8d8;
+      padding-bottom: 10px;
+    }
+
+    .datos-basicos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .dato {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .dato strong {
+      color: #3a3a3a;
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .dato span { font-size: 1rem; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .stat .nombre { color: #3a3a3a; font-size: 0.95rem; }
+    .stat .puntos { color: #9a9a9a; letter-spacing: 3px; font-size: 1.1rem; }
+
+    /* Barras de personalidad con dos extremos */
+    .personalidad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .barra { padding: 10px 0; border-bottom: 1px solid #eaeaea; }
+
+    .barra .extremos {
+      display: flex;
+      justify-content: space-between;
+      color: #3a3a3a;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .barra .extremos .izq { color: #3a3a3a; }
+    .barra .extremos .der { color: #8a8a8a; }
+
+    .barra .track {
+      position: relative;
+      background: linear-gradient(to right, #3a3a3a, #e0e0e0, #8a8a8a);
+      border-radius: 10px;
+      height: 8px;
+    }
+
+    .barra .punto {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #3a3a3a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .texto { color: #5a5a5a; font-size: 1rem; line-height: 1.7; }
+    .texto p { margin-bottom: 15px; }
+
+    .creencias {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .creencia {
+      flex: 1 1 200px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+
+    .creencia h4 { color: #3a3a3a; font-size: 1rem; margin-bottom: 5px; }
+
+    .creencia p { font-size: 0.85rem; color: #8a8a8a; }
+
+    .creencia.activa {
+      border-color: #A9744F;
+      background-color: #fdf3e0;
+    }
+
+    .creencia.activa h4 { color: #6B4423; }
+
+    /* Cuerpo completo */
+    .cuerpo-completo {
+      text-align: center;
+    }
+
+    .cuerpo-completo img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Paleta de colores */
+    .paleta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .color-cuadro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .color-cuadro .cuadro {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .color-cuadro .lineart {
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .color-info { font-size: 0.9rem; }
+    .color-info .codigo { font-family: 'Consolas', monospace; color: #3a3a3a; font-weight: 600; }
+    .color-info .lineart-label { color: #8a8a8a; font-size: 0.8rem; }
+
+    .lista {
+      margin: 0;
+      padding-left: 20px;
+      color: #5a5a5a;
+    }
+
+    .lista li { margin-bottom: 8px; }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #9a9a9a;
+      font-size: 0.9rem;
+      border-top: 1px solid #e0dcd4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="avatar"><img src="imagenes/gifs/nam.gif" alt=""><span>5</span></div>
+    <h1>Nº5 · NAM</h1>
+    <p>Híbrida de conejo, venado y águila — Villano</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="personajes.html">← Volver a personajes</a>
+
+    <div class="seccion-ficha">
+      <h2>Datos básicos</h2>
+      <div class="datos-basicos">
+        <div class="dato"><strong>Nombre</strong><span>Nam (Nº5)</span></div>
+        <div class="dato"><strong>Especie</strong><span>Híbrida de conejo, venado y águila con seis patas</span></div>
+        <div class="dato"><strong>Rol</strong><span>Villano</span></div>
+        <div class="dato"><strong>Ocupación</strong><span>Exploradora del laboratorio</span></div>
+        <div class="dato"><strong>Alianza</strong><span>Gabriel y sus hermanitas</span></div>
+        <div class="dato"><strong>Familia</strong><span>Gabriel (hermano) · Alfa-Kit · Cinco hermanitas</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Resumen</h2>
+      <p class="texto">Nam, el experimento Nº5, fue el quinto intento de Gabriel de crear vida biológica. Quería una hermana que pudiera moverse con libertad: correr, saltar, explorar, desafiando las leyes de la naturaleza. Así nació una criatura híbrida de conejo, venado y águila, con seis patas, orejas largas, astas pequeñas y plumas doradas en la espalda y la cola. Nació con energía infinita y un trastorno de atención severo, pero Gabriel no se rindió: aprendió a quererla tal como era. Es la más juguetona de las seis, la que mantiene al grupo en movimiento.</p>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Personalidad</h2>
+      <div class="personalidad">
+        <div class="barra">
+          <div class="extremos"><span class="izq">Amable</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Extrovertido</span><span class="der">Introvertido</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Pacífico</span><span class="der">Violento</span></div>
+          <div class="track"><div class="punto" style="left: 25%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Ordenado</span><span class="der">Caótico</span></div>
+          <div class="track"><div class="punto" style="left: 90%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Confiado</span><span class="der">Inseguro</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Calmado</span><span class="der">Ansioso</span></div>
+          <div class="track"><div class="punto" style="left: 90%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Honesto</span><span class="der">Engañoso</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Líder</span><span class="der">Seguidor</span></div>
+          <div class="track"><div class="punto" style="left: 40%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Educado</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 30%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Controlado</span><span class="der">Salvaje</span></div>
+          <div class="track"><div class="punto" style="left: 90%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Político</span><span class="der">Indiferente</span></div>
+          <div class="track"><div class="punto" style="left: 85%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Bueno</span><span class="der">Malo</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Stats</h2>
+      <div class="stats">
+        <div class="stat"><span class="nombre">Inteligencia</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Creatividad</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Poder</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Agresión</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Confianza</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Ansiedad</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Paciencia</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Empatía</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Amor</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Modestia</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Humor</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Felicidad</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Calma</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Fuerza</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Salud</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Pasión</span><span class="puntos">●●●●●</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Creencias</h2>
+      <div class="creencias">
+        <div class="creencia">
+          <h4>Oliverismo</h4>
+          <p>No seleccionado</p>
+        </div>
+        <div class="creencia">
+          <h4>Satanismo</h4>
+          <p>No seleccionado</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Cuerpo completo</h2>
+      <div class="cuerpo-completo">
+        <img src="imagenes/nam_full.png" alt="Cuerpo completo de Nam">
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Paleta de colores</h2>
+      <div class="paleta">
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #E8B84B;"></div>
+            <div class="lineart" style="background-color: #9C7A1E;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#E8B84B</div>
+            <div class="lineart-label">Dorado (plumas de águila) · Lineart: #9C7A1E</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cu¡Uy, se cortó el código a la mitad! 😅 Perdón, Oliver. Acá va `nam.html` completo, sin cortes:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Nº5 (Nam)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f5f1eb;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #E8B84B, #A9744F);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #6B4423;
+    }
+
+    .banner .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #A9744F;
+      color: #ffffff;
+      font-size: 2.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .banner .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #ffffff;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #fdf3e0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .volver:hover { color: #A9744F; }
+
+    .seccion-ficha {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .seccion-ficha h2 {
+      color: #3a3a3a;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #d8d8d8;
+      padding-bottom: 10px;
+    }
+
+    .datos-basicos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .dato {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .dato strong {
+      color: #3a3a3a;
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .dato span { font-size: 1rem; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .stat .nombre { color: #3a3a3a; font-size: 0.95rem; }
+    .stat .puntos { color: #9a9a9a; letter-spacing: 3px; font-size: 1.1rem; }
+
+    /* Barras de personalidad con dos extremos */
+    .personalidad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .barra { padding: 10px 0; border-bottom: 1px solid #eaeaea; }
+
+    .barra .extremos {
+      display: flex;
+      justify-content: space-between;
+      color: #3a3a3a;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .barra .extremos .izq { color: #3a3a3a; }
+    .barra .extremos .der { color: #8a8a8a; }
+
+    .barra .track {
+      position: relative;
+      background: linear-gradient(to right, #3a3a3a, #e0e0e0, #8a8a8a);
+      border-radius: 10px;
+      height: 8px;
+    }
+
+    .barra .punto {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #3a3a3a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .texto { color: #5a5a5a; font-size: 1rem; line-height: 1.7; }
+    .texto p { margin-bottom: 15px; }
+
+    .creencias {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .creencia {
+      flex: 1 1 200px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+
+    .creencia h4 { color: #3a3a3a; font-size: 1rem; margin-bottom: 5px; }
+
+    .creencia p { font-size: 0.85rem; color: #8a8a8a; }
+
+    .creencia.activa {
+      border-color: #A9744F;
+      background-color: #fdf3e0;
+    }
+
+    .creencia.activa h4 { color: #6B4423; }
+
+    /* Cuerpo completo */
+    .cuerpo-completo {
+      text-align: center;
+    }
+
+    .cuerpo-completo img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Paleta de colores */
+    .paleta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .color-cuadro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .color-cuadro .cuadro {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .color-cuadro .lineart {
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .color-info { font-size: 0.9rem; }
+    .color-info .codigo { font-family: 'Consolas', monospace; color: #3a3a3a; font-weight: 600; }
+    .color-info .lineart-label { color: #8a8a8a; font-size: 0.8rem; }
+
+    .lista {
+      margin: 0;
+      padding-left: 20px;
+      color: #5a5a5a;
+    }
+
+    .lista li { margin-bottom: 8px; }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #9a9a9a;
+      font-size: 0.9rem;
+      border-top: 1px solid #e0dcd4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="avatar"><img src="imagenes/gifs/nam.gif" alt=""><span>5</span></div>
+    <h1>Nº5 · NAM</h1>
+    <p>Híbrida de conejo, venado y águila — Villano</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="personajes.html">← Volver a personajes</a>
+
+    <div class="seccion-ficha">
+      <h2>Datos básicos</h2>
+      <div class="datos-basicos">
+        <div class="dato"><strong>Nombre</strong><span>Nam (Nº5)</span></div>
+        <div class="dato"><strong>Especie</strong><span>Híbrida de conejo, venado y águila con seis patas</span></div>
+        <div class="dato"><strong>Rol</strong><span>Villano</span></div>
+        <div class="dato"><strong>Ocupación</strong><span>Exploradora del laboratorio</span></div>
+        <div class="dato"><strong>Alianza</strong><span>Gabriel y sus hermanitas</span></div>
+        <div class="dato"><strong>Familia</strong><span>Gabriel (hermano) · Alfa-Kit · Cinco hermanitas</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Resumen</h2>
+      <p class="texto">Nam, el experimento Nº5, fue el quinto intento de Gabriel de crear vida biológica. Quería una hermana que pudiera moverse con libertad: correr, saltar, explorar, desafiando las leyes de la naturaleza. Así nació una criatura híbrida de conejo, venado y águila, con seis patas, orejas largas, astas pequeñas y plumas doradas en la espalda y la cola. Nació con energía infinita y un trastorno de atención severo, pero Gabriel no se rindió: aprendió a quererla tal como era. Es la más juguetona de las seis, la que mantiene al grupo en movimiento.</p>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Personalidad</h2>
+      <div class="personalidad">
+        <div class="barra">
+          <div class="extremos"><span class="izq">Amable</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Extrovertido</span><span class="der">Introvertido</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Pacífico</span><span class="der">Violento</span></div>
+          <div class="track"><div class="punto" style="left: 25%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Ordenado</span><span class="der">Caótico</span></div>
+          <div class="track"><div class="punto" style="left: 90%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Confiado</span><span class="der">Inseguro</span></div>
+          <div class="track"><div class="punto" style="left: 20%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Calmado</span><span class="der">Ansioso</span></div>
+          <div class="track"><div class="punto" style="left: 90%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Honesto</span><span class="der">Engañoso</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Líder</span><span class="der">Seguidor</span></div>
+          <div class="track"><div class="punto" style="left: 40%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Educado</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 30%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Controlado</span><span class="der">Salvaje</span></div>
+          <div class="track"><div class="punto" style="left: 90%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Político</span><span class="der">Indiferente</span></div>
+          <div class="track"><div class="punto" style="left: 85%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Bueno</span><span class="der">Malo</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Stats</h2>
+      <div class="stats">
+        <div class="stat"><span class="nombre">Inteligencia</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Creatividad</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Poder</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Agresión</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Confianza</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Ansiedad</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Paciencia</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Empatía</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Amor</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Modestia</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Humor</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Felicidad</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Calma</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Fuerza</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Salud</span><span class="puntos">●●●●○</span></div>
+        <div class="stat"><span class="nombre">Pasión</span><span class="puntos">●●●●●</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Creencias</h2>
+      <div class="creencias">
+        <div class="creencia">
+          <h4>Oliverismo</h4>
+          <p>No seleccionado</p>
+        </div>
+        <div class="creencia">
+          <h4>Satanismo</h4>
+          <p>No seleccionado</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Cuerpo completo</h2>
+      <div class="cuerpo-completo">
+        <img src="imagenes/nam_full.png" alt="Cuerpo completo de Nam">
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Paleta de colores</h2>
+      <div class="paleta">
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #E8B84B;"></div>
+            <div class="lineart" style="background-color: #9C7A1E;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#E8B84B</div>
+            <div class="lineart-label">Dorado (plumas de águila) · Lineart: #9C7A1E</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #B5835A;"></div>
+            <div class="lineart" style="background-color: #6B4423;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#B5835A</div>
+            <div class="lineart-label">Marrón (venado) · Lineart: #6B4423</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #F5F0E1;"></div>
+            <div class="lineart" style="background-color: #C4B99A;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#F5F0E1</div>
+            <div class="lineart-label">Crema (conejo) · Lineart: #C4B99A</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Historia</h2>
+      <div class="texto">
+        <p>El experimento Nº5 fue el quinto intento de Gabriel de crear vida biológica. Después de Nº1, la dulce; Nº2, la risueña; Nº3, la guardiana; y Nº4, la silenciosa, Gabriel quiso probar algo completamente diferente. Quería una hermana que no solo fuera parte de su familia, sino que también pudiera moverse con libertad, explorar, correr, saltar. Algo que desafiara las leyes de la naturaleza. Así nació Nº5, una criatura híbrida de conejo, venado y águila, con seis patas en total: dos patas traseras de conejo, dos patas medias de venado, y dos patas delanteras con garras de águila. Su cuerpo era esbelto, ágil, con orejas largas de conejo, astas pequeñas de venado, y plumas doradas que le recorrían la espalda y la cola.</p>
+        <p>Nº5 nació con una energía infinita. No podía quedarse quieta. Saltaba, corría, trepaba, volaba distancias cortas con sus plumas. Gabriel la observaba fascinado. Nunca había creado algo tan vivo, tan lleno de movimiento. Pero también notó algo extraño: Nº5 no podía concentrarse. Su atención saltaba de una cosa a otra en segundos. No podía seguir órdenes complejas. No podía quedarse en un lugar por mucho tiempo. Era como si su mente funcionara al mismo ritmo que sus patas: rápida, caótica, imparable.</p>
+        <p>Gabriel entendió que Nº5 tenía un trastorno de atención severo. No era que no quisiera escuchar, era que no podía. Su cerebro estaba programado para moverse, para explorar, para nunca detenerse. Alfa-Kit le advirtió que sería difícil de manejar. Pero Gabriel no se rindió. Aprendió a darle órdenes simples, a dejarla correr por el laboratorio para que gastara energía, a no frustrarse cuando ella se distraía a mitad de una frase. Y Nº5, a su manera, aprendió a quererlo. No con abrazos largos ni con palabras bonitas, sino con carreras rápidas, con saltos inesperados, con plumas que le dejaba en el hombro como regalos.</p>
+        <p>Nam es la más juguetona de las seis. La que persigue a Nº2 por los pasillos. La que salta sobre Nº1 para despertarla. La que corre junto a Nº3 en sus patrullas nocturnas. La que se acurruca junto a Nº4 cuando finalmente se agota. Es la que mantiene al grupo en movimiento, la que evita que el laboratorio se vuelva un lugar silencioso y triste. Gabriel la ha visto caer mil veces mientras intenta trepar algo, chocar contra paredes por no frenar a tiempo, reírse de sus propios tropiezos. Y cada vez, Gabriel sonríe. Porque Nam, con su caos y su energía, le recuerda que la vida no tiene que ser perfecta para ser maravillosa.</p>
+        <p>Gabriel no sabe si Nam algún día podrá vivir fuera del laboratorio, ni si el mundo exterior podría seguirle el ritmo, ni si ella podría adaptarse a un lugar donde no todo es una aventura. Pero no le importa. Mientras Nam esté con él, estará a salvo. Mientras tenga a sus hermanas, será feliz. No necesita más. No quiere más. Solo quiere correr, saltar, explorar. Y lo hace. Todos los días. Sin parar. Sin miedo.</p>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Datos adicionales</h2>
+      <ul class="lista">
+        <li>Quinta creación biológica de Gabriel.</li>
+        <li>Híbrida de conejo, venado y águila con seis patas.</li>
+        <li>Plumas doradas en la espalda y la cola.</li>
+        <li>Trastorno de atención severo; mente al ritmo de sus patas.</li>
+        <li>La más juguetona de las seis.</li>
+        <li>Deja plumas en el hombro de Gabriel como regalos.</li>
+        <li>Mantiene al grupo en movimiento.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    Nam (Nº5) - Diseñado por Brony Boy 2026
+  </footer>
+
+</body>
+</html>

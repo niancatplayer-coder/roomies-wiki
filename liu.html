@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Nº6 (Liu)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f5f1eb;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #C9B8D8, #E8E6EA);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #7A6B8C;
+    }
+
+    .banner .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #7A6B8C;
+      color: #ffffff;
+      font-size: 2.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .banner .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #4a3f5c;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #5a4f6e;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .volver:hover { color: #7A6B8C; }
+
+    .seccion-ficha {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .seccion-ficha h2 {
+      color: #3a3a3a;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #d8d8d8;
+      padding-bottom: 10px;
+    }
+
+    .datos-basicos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .dato {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .dato strong {
+      color: #3a3a3a;
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .dato span { font-size: 1rem; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .stat .nombre { color: #3a3a3a; font-size: 0.95rem; }
+    .stat .puntos { color: #9a9a9a; letter-spacing: 3px; font-size: 1.1rem; }
+
+    /* Barras de personalidad con dos extremos */
+    .personalidad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .barra { padding: 10px 0; border-bottom: 1px solid #eaeaea; }
+
+    .barra .extremos {
+      display: flex;
+      justify-content: space-between;
+      color: #3a3a3a;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .barra .extremos .izq { color: #3a3a3a; }
+    .barra .extremos .der { color: #8a8a8a; }
+
+    .barra .track {
+      position: relative;
+      background: linear-gradient(to right, #3a3a3a, #e0e0e0, #8a8a8a);
+      border-radius: 10px;
+      height: 8px;
+    }
+
+    .barra .punto {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #3a3a3a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .texto { color: #5a5a5a; font-size: 1rem; line-height: 1.7; }
+    .texto p { margin-bottom: 15px; }
+
+    .creencias {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .creencia {
+      flex: 1 1 200px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+
+    .creencia h4 { color: #3a3a3a; font-size: 1rem; margin-bottom: 5px; }
+
+    .creencia p { font-size: 0.85rem; color: #8a8a8a; }
+
+    .creencia.activa {
+      border-color: #7A6B8C;
+      background-color: #f3f0f7;
+    }
+
+    .creencia.activa h4 { color: #5a4f6e; }
+
+    /* Cuerpo completo */
+    .cuerpo-completo {
+      text-align: center;
+    }
+
+    .cuerpo-completo img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Paleta de colores */
+    .paleta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+
+    .color-cuadro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .color-cuadro .cuadro {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .color-cuadro .lineart {
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .color-info { font-size: 0.9rem; }
+    .color-info .codigo { font-family: 'Consolas', monospace; color: #3a3a3a; font-weight: 600; }
+    .color-info .lineart-label { color: #8a8a8a; font-size: 0.8rem; }
+
+    .lista {
+      margin: 0;
+      padding-left: 20px;
+      color: #5a5a5a;
+    }
+
+    .lista li { margin-bottom: 8px; }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #9a9a9a;
+      font-size: 0.9rem;
+      border-top: 1px solid #e0dcd4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="avatar"><img src="imagenes/gifs/liu.gif" alt=""><span>6</span></div>
+    <h1>Nº6 · LIU</h1>
+    <p>Criatura gelatinosa con alas de libélula — Villano</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="personajes.html">← Volver a personajes</a>
+
+    <div class="seccion-ficha">
+      <h2>Datos básicos</h2>
+      <div class="datos-basicos">
+        <div class="dato"><strong>Nombre</strong><span>Liu (Nº6)</span></div>
+        <div class="dato"><strong>Especie</strong><span>Criatura gelatinosa con alas translúcidas de libélula</span></div>
+        <div class="dato"><strong>Rol</strong><span>Villano</span></div>
+        <div class="dato"><strong>Ocupación</strong><span>Compañera de Gabriel (viaja en una bolsa colgada de su cuello)</span></div>
+        <div class="dato"><strong>Alianza</strong><span>Gabriel y sus hermanitas</span></div>
+        <div class="dato"><strong>Familia</strong><span>Gabriel (hermano) · Alfa-Kit · Cinco hermanitas</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Resumen</h2>
+      <p class="texto">Liu, el experimento Nº6, fue el último intento de Gabriel de crear vida biológica. Esta vez no buscaba una función específica: quería una criatura que no se pareciera a nada creado antes, que existiera simplemente porque sí. Así nació una pequeña criatura del tamaño de una taza, con cuerpo redondeado y suave como una nube, de color lila y gris perla, sin patas (se desliza sobre una base gelatinosa), ojos negros como botones de terciopelo y alas translúcidas que vibran cuando está emocionada. Es la más indefensa de todas — y por eso, la más preciada.</p>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Personalidad</h2>
+      <div class="personalidad">
+        <div class="barra">
+          <div class="extremos"><span class="izq">Amable</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 5%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Extrovertido</span><span class="der">Introvertido</span></div>
+          <div class="track"><div class="punto" style="left: 75%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Pacífico</span><span class="der">Violento</span></div>
+          <div class="track"><div class="punto" style="left: 5%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Ordenado</span><span class="der">Caótico</span></div>
+          <div class="track"><div class="punto" style="left: 15%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Confiado</span><span class="der">Inseguro</span></div>
+          <div class="track"><div class="punto" style="left: 40%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Calmado</span><span class="der">Ansioso</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Honesto</span><span class="der">Engañoso</span></div>
+          <div class="track"><div class="punto" style="left: 5%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Líder</span><span class="der">Seguidor</span></div>
+          <div class="track"><div class="punto" style="left: 90%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Educado</span><span class="der">Rudo</span></div>
+          <div class="track"><div class="punto" style="left: 5%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Controlado</span><span class="der">Salvaje</span></div>
+          <div class="track"><div class="punto" style="left: 10%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Político</span><span class="der">Indiferente</span></div>
+          <div class="track"><div class="punto" style="left: 90%"></div></div>
+        </div>
+        <div class="barra">
+          <div class="extremos"><span class="izq">Bueno</span><span class="der">Malo</span></div>
+          <div class="track"><div class="punto" style="left: 5%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Stats</h2>
+      <div class="stats">
+        <div class="stat"><span class="nombre">Inteligencia</span><span class="puntos">●●●○○</span></div>
+        <div class="stat"><span class="nombre">Creatividad</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Poder</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Agresión</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Confianza</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Ansiedad</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Paciencia</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Empatía</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Amor</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Modestia</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Humor</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Felicidad</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Calma</span><span class="puntos">●●●●●</span></div>
+        <div class="stat"><span class="nombre">Fuerza</span><span class="puntos">●○○○○</span></div>
+        <div class="stat"><span class="nombre">Salud</span><span class="puntos">●●○○○</span></div>
+        <div class="stat"><span class="nombre">Pasión</span><span class="puntos">●●○○○</span></div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Creencias</h2>
+      <div class="creencias">
+        <div class="creencia">
+          <h4>Oliverismo</h4>
+          <p>No seleccionado</p>
+        </div>
+        <div class="creencia">
+          <h4>Satanismo</h4>
+          <p>No seleccionado</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Cuerpo completo</h2>
+      <div class="cuerpo-completo">
+        <img src="imagenes/liu_full.png" alt="Cuerpo completo de Liu">
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Paleta de colores</h2>
+      <div class="paleta">
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #C9B8D8;"></div>
+            <div class="lineart" style="background-color: #7A6B8C;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#C9B8D8</div>
+            <div class="lineart-label">Lila (cuerpo) · Lineart: #7A6B8C</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #E8E6EA;"></div>
+            <div class="lineart" style="background-color: #9A97A3;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#E8E6EA</div>
+            <div class="lineart-label">Gris perla (base gelatinosa) · Lineart: #9A97A3</div>
+          </div>
+        </div>
+        <div class="color-item">
+          <div class="color-cuadro">
+            <div class="cuadro" style="background-color: #DCD6E8;"></div>
+            <div class="lineart" style="background-color: #A89FC0;"></div>
+          </div>
+          <div class="color-info">
+            <div class="codigo">#DCD6E8</div>
+            <div class="lineart-label">Alas translúcidas · Lineart: #A89FC0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Historia</h2>
+      <div class="texto">
+        <p>El experimento Nº6 fue el último intento de Gabriel de crear vida biológica. Después de Nº1, la dulce; Nº2, la risueña; Nº3, la guardiana; Nº4, la silenciosa; y Nº5, la inquieta, Gabriel ya no buscaba una función específica. No quería una hermana que lo protegiera, ni que lo acompañara, ni que lo hiciera reír. Quería algo diferente. Quería una criatura que no se pareciera a nada que hubiera creado antes. Algo que existiera simplemente porque sí. Porque él quería. Porque podía. Así nació Nº6, una criatura pequeña, del tamaño de una taza, con un cuerpo redondeado y suave como una nube, de un color entre lila y gris perla. No tenía patas, sino una base gelatinosa que le permitía deslizarse lentamente por el suelo. Su cabeza era grande, con dos ojos enormes, negros y brillantes, como botones de terciopelo. No tenía boca visible, pero emitía sonidos suaves, como pequeños gorjeos, cuando estaba contenta. Y su rasgo más extraño: dos pequeñas alas translúcidas, como de libélula, que no le servían para volar, pero que vibraban cuando estaba emocionada.</p>
+        <p>Nº6 nació con una fragilidad extrema. Su cuerpo no soportaba cambios bruscos de temperatura. No podía moverse rápido. No podía defenderse. No podía hacer nada por sí misma. Gabriel lo supo al instante. Nº6 no era como las otras. No podía ser entrenada, no podía ser útil, no podía sobrevivir sin ayuda constante. Pero cuando la vio abrir los ojos por primera vez, cuando escuchó su primer gorjeo, cuando sintió su pequeño cuerpo gelatinoso acurrucarse en la palma de su mano, Gabriel supo que no podría abandonarla. No quería. No podía. Nº6 era la más indefensa de todas. Y eso la hacía la más preciada.</p>
+        <p>Liu es la más adorable de las seis. No camina, se desliza. No corre, se balancea. No salta, se mece. Sus hermanas la cuidan sin que nadie se lo pida. Nº1 la acurruca bajo sus alas. Nº2 la hace reír con sus payasadas. Nº3 la protege de cualquier ruido fuerte. Nº4 la observa en silencio, como si la entendiera. Nº5 le trae cosas pequeñas que encuentra en sus exploraciones. Y Gabriel, cuando puede, la lleva consigo a todas partes. La sostiene en una pequeña bolsa de tela que cuelga de su cuello. La alimenta con una mezcla especial que Alfa-Kit prepara. Le habla en voz baja cuando está estresado. Y Liu, sin entender del todo las palabras, gorjea en respuesta. Como si dijera: "Estoy aquí. No estás solo."</p>
+        <p>Liu no sabe que es un experimento. No sabe que fue creada en un laboratorio. No sabe que su cuerpo no es "normal". Solo sabe que está viva, que tiene hermanas, y que Gabriel la quiere. Y con eso es feliz. A veces, cuando Gabriel está muy ocupado, Liu se desliza hasta su regazo y se queda ahí, inmóvil, emitiendo pequeños gorjeos. Gabriel, sin poder evitarlo, deja lo que está haciendo y la acaricia con un dedo. Porque Liu, con su cuerpo gelatinoso y sus alas translúcidas, le recuerda que no todo tiene que ser útil o fuerte para ser valioso. A veces, lo más indefenso es lo más importante.</p>
+        <p>Gabriel no sabe qué hará Liu en el futuro. No sabe si podrá vivir sin cuidados constantes, si podrá adaptarse a un mundo que no está hecho para ella, si podrá sobrevivir sin él. Pero no le importa. Mientras Liu esté con él, estará protegida. Mientras tenga a sus hermanas, será feliz. No necesita más. No quiere más. Solo quiere estar cerca de los suyos. Y lo está. Todos los días. Sin moverse. Sin hablar. Sin pedir nada. Solo gorjeando. Solo existiendo. Solo siendo Liu.</p>
+      </div>
+    </div>
+
+    <div class="seccion-ficha">
+      <h2>Datos adicionales</h2>
+      <ul class="lista">
+        <li>Sexta y última creación biológica de Gabriel.</li>
+        <li>Tamaño de una taza; cuerpo redondeado y suave como una nube.</li>
+        <li>Color entre lila y gris perla.</li>
+        <li>Sin patas: se desliza sobre una base gelatinosa.</li>
+        <li>Ojos negros y brillantes como botones de terciopelo.</li>
+        <li>Alas translúcidas que vibran cuando está emocionada.</li>
+        <li>Fragilidad extrema: no soporta cambios bruscos de temperatura.</li>
+        <li>La más indefensa de todas — y la más preciada.</li>
+        <li>Gabriel la lleva en una bolsa de tela colgada de su cuello.</li>
+        <li>Gorjea cuando está contenta.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    Liu (Nº6) - Diseñado por Brony Boy 2026
+  </footer>
+
+</body>
+</html>
