@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Votaciones</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #fdfaf3;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #C9A227, #F5E6C8);
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid #8a6d1f;
+    }
+
+    .banner h1 {
+      font-size: 2.8rem;
+      color: #6b5314;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      font-size: 1.05rem;
+      color: #7a5f1a;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #7a7a8a;
+      text-decoration: none;
+      font-size:  ️0.95rem;
+    }
+
+    .volver:hover { color: #C9A227; }
+
+    .aviso {
+      background-color: #fdf6e3;
+      border:  ️2px solid #C9A227;
+      border-radius: 10px;
+      padding: 12px 15px;
+      margin-bottom:  ️30px;
+      font-size: 0.95rem;
+      color: #7a5f1a;
+      text-align: center;
+    }
+
+    .votacion {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom:  ️30px;
+      box-shadow:  ️0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .votacion h2 {
+      color: #3a3a3a;
+      font-size: 1.4rem;
+      margin-bottom:  ️5px;
+    }
+
+    .votacion .pregunta {
+      color: #8a8a8a;
+      font-size:  ️0.95rem;
+      margin-bottom:  ️20px;
+    }
+
+    .opciones {
+      display: flex;
+      flex-direction: column;
+      gap:  ️12px;
+      margin-bottom:  ️20px;
+    }
+
+    .opcion {
+      display: flex;
+      align-items: center;
+      gap:  ️12px;
+      padding:  ️12px 15px;
+      border-radius:  ️10px;
+      border:  ️2px solid #e0e0e0;
+      cursor: pointer;
+      transition: all 0.2s;
+      background-color: #fafafa;
+    }
+
+    .opcion:hover {
+      border-color: #C9A227;
+      background-color: #fdf6e3;
+    }
+
+    .opcion.seleccionada {
+      border-color: #C9A227;
+      background-color: #fdf6e3;
+    }
+
+    .opcion .check {
+      width:  ️22px;
+      height:: 22px;
+      border-radius:  ️50%;
+      border:  ️2px solid #b0b0b0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      font-size:  ️0.8rem;
+      color: #ffffff;
+    }
+
+    .opcion.seleccionada .check {
+      background-color: #C9A227;
+      border-color: #C9A227;
+    }
+
+    .opcion .nombre {
+      flex:  ️1;
+      font-weight:  ️600;
+      color: #3a3a3a;
+    }
+
+    .resultados {
+      margin-top:  ️20px;
+      border-top:  ️2px solid #eaeaea;
+      padding-top:  ️20px;
+    }
+
+    .resultados h3 {
+      color: #3a3a3a;
+      font-size:  ️1.1rem;
+      margin-bottom:  ️15px;
+    }
+
+    .resultado {
+      margin-bottom:  ️15px;
+    }
+
+    .resultado .fila {
+      display: flex;
+      justify-content: space-between;
+      font-size:  ️0.9rem;
+      margin-bottom:  ️5px;
+    }
+
+    .resultado .fila .nombre-res { color: #3a3a3a; font-weight: 600; }
+    .resultado .fila .porcentaje { color: #C9A227; font-weight:  ️700; }
+
+    .resultado .barra-fondo {
+      background-color: #f0f0f0;
+      border-radius:  ️10px;
+      height:  ️10px;
+      overflow: hidden;
+    }
+
+    .resultado .barra-llena {
+      background: linear-gradient(to right, #C9A227, #F5E6C8);
+      height:: ️100%;
+      border-radius:  ️10px;
+      transition: width 0.4s ease;
+      width:  ️0%;
+    }
+
+    .resultado .votos {
+      font-size:  ️0.8rem;
+      color: #9a9a9a;
+      margin-top:  ️3px;
+    }
+
+    .total-votos {
+      text-align: center;
+      color: #8a8a8a;
+      font-size:  ️0.9rem;
+      margin-top:  ️15px;
+    }
+
+    footer {
+      text-align: center;
+      padding:  ️30px 20px;
+      margin-top:  ️40px;
+      color: #9a9a9a;
+      font-size:  ️0.9rem;
+      border-top:  ️1px solid #efe3c4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <h1>VOTACIONES</h1>
+    <p>Votá en vivo y cambiá tu voto cuando quieras</p>
+  </div>
+
+  <div class="contenido">
+
+    <a class="volver" href="index.html">← Volver al inicio</a>
+
+    <div class="aviso" id="aviso-modo">
+      🌍 Votos globales en vivo
+    </div>
+
+    <!-- VOTACIÓN 1 -->
+    <div class="votacion" data-votacion="favorito">
+      <h2>¿Cuál es tu personaje favorito?</h2>
+      <p class="pregunta">Elegí a tu favorito del grupo principal.</p>
+      <div class="opciones">
+        <div class="opcion" data-opcion="wooly"><div class="check">✓</div><span class="nombre">Wooly</span></div>
+        <div class="opcion" data-opcion="ace"><div class="check">✓</div><span class="nombre">Ace</span></div>
+        <div class="opcion" data-opcion="lucky"><div class="check">✓</div><span class="nombre">Lucky</span></div>
+        <div class="opcion" data-opcion="funky"><div class="check">✓</div><span class="nombre">Funky</span></div>
+        <div class="opcion" data-opcion="oliver"><div class="check">✓</div><span class="nombre">Oliver</span></div>
+      </div>
+      <div class="resultados">
+        <h3>Resultados en vivo</h3>
+        <div class="resultado" data-resultado="wooly"><div class="fila"><span class="nombre-res">Wooly</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
+        <div class="resultado" data-resultado="ace"><div class="fila"><span class="nombre-res">Ace</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
+        <div class="resultado" data-resultado="lucky"><div class="fila"><span class="nombre-res">Lucky</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
+        <div class-resultado" data-resultado="funky"><div class="fila"><span class="nombre-res">Funky</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
+        <div class="resultado" data-resultado="oliver"><div class="fila"><span class="nombre-res">Oliver</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
+        <div class="total-votos">Total: 0 votos</div>
+      </div>
+    </div>
+
+    <!-- VOTACIÓN 2 -->
+    <div class="votacion" data-votacion="pareja">
+      <h2>¿Cuál es tu pareja favorita?</h2>
+      <p class="pregunta">Elegí el ship que más te gusta.</p>
+      <div class="opciones">
+        <div class="opcion" data-opcion="ace-lucky"><div class="check">✓</div><span class="nombre">Ace × Lucky</span></div>
+        <div class="opcion" data-opcion="funky-noir"><div class="check">✓</div><span class="nombre">Funky × Noir</span></div>
+        <div class="opcion" data-opcion="wooly-ace"><div class="check">✓</div><span class="nombre">Wooly × Ace</span></div>
+        <div class="opcion" data-opcion="oliver-angel"><div class="check">✓</div><span class="nombre">Oliver × Angel</span></div>
+      </div>
+      <div class="resultados">
+        <h3>Resultados en vivo</h3>
+        <div class="resultado" data-resultado="ace-lucky"><div class="fila"><span class="nombre-res">Ace × Lucky</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
+        <div class="resultado" data-resultado="funky-noir"><div class="fila"><span class="nombre-res">Funky × Noir</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
+        <div class="resultado" data-resultado="wooly-ace"><div class="fila"><span class="nombre-res">Wooly × Ace</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
+        <div class="resultado" data-resultado="oliver-angel"><div class="fila"><span class="nombre-res">Oliver × Angel</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
+        <div class="total-votos">Total: 0 votos</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Roomies Wiki — Votaciones
+  </footer>
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDrX8lGd73bI0TVY68YSK1bvvCppspsSQ4",
+  authDomain: "roomies-wiki.firebaseapp.com",
+  databaseURL: "https://roomies-wiki-default-rtdb.firebaseio.com",
+  projectId: "roomies-wiki",
+  storageBucket: "roomies-wiki.firebasestorage.app",
+  messagingSenderId: "865809094565",
+  appId: "1:865809094565:web:8aee3c4edf3c4dd6af3a4c",
+  measurementId: "G-HSC7RLSC4M"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+    // Inicializar Firebase (si está configurado)
+    let firebaseListo = false;
+    let db = null;
+    let votacionRef = null;
+
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.database();
+      firebaseListo = true;
+    } catch (e) {
+      console.log('Firebase no configurado, usando modo local');
+    }
+
+    // Claves para almacenamiento local
+    const CLAVE_VOTO_USUARIO = 'roomies_mi_voto';
+    const CLAVE_VOTOS_LOCALES = 'roomies_votos_locales';
+
+    // Votos base para que las barras no arranquen en cero
+    const VOTOS_INICIALES = {
+      'favorito': { 'wooly': 5, 'ace': 3, 'lucky':  ️4, 'funky':  ️2, 'oliver':  ️1 },
+      'pareja': { 'ace-lucky':  ️4, 'funky-noir':  ️3, 'wooly-ace':  ️2, 'oliver-angel':  ️1 }
+    };
+
+    // Estado actual de votos
+    let votosActuales = null;
+
+    // ---------- FUNCIONES DE INTERFAZ ----------
+
+    function actualizarResultados(votos) {
+      document.querySelectorAll('.votacion').forEach(votacionEl => {
+        const idVotacion = votacionEl.dataset.votacion;
+
+        const datos = votos[idVotacion] || {};
+        let total = 0;
+        for (const opcion in datos) total += datos[opcion];
+
+        votacionEl.querySelectorAll('.resultado').forEach(resultadoEl => {
+          const idOpcion = resultadoEl.dataset.resultado;
+          const votosOpcion = datos[idOpcion] || 0;
+          const porcentaje = total > 0 ? Math.round((votosOpcion / total) * 100) : 0;
+
+          resultadoEl.querySelector('.porcentaje').textContent = porcentaje + '%';
+          resultadoEl.querySelector('.barra-llena').style.width = porcentaje + '%';
+          resultadoEl.querySelector('.votos').textContent = votosOpcion + (votosOpcion === 1 ? ' voto' : ' votos');
+        });
+
+        votacionEl.querySelector('.total-votos').textContent = 'Total: ' + total + (total === 1 ? ' voto' : ' votos');
+      });
+    }
+
+    function marcarSeleccion(votacionId, opcionId) {
+
+
+
+      const votacionEl = document.querySelector('.votacion[data-votacion="' + votacionId + '"]');
+      votacionEl.querySelectorAll('.opcion').forEach(op => {
+        op.classList.toggle('seleccionada', op.dataset.opcion === opcionId);
+      });
+    }
+
+    // Restaurar las selecciones del usuario desde localStorage
+    function restaurarSeleccionesLocales() {
+      const guardados = JSON.parse(localStorage.getItem(CLAVE_VOTO_USUARIO) || '{}');
+      for (const votacionId in guardados) {
+
+
+
+        if (guardados[votacionId]) marcarSeleccion(votacionId, guardados[votacionId]);
+      }
+    }
+
+    // ---------- MODO LOCAL (RESPALDO) ----------
+
+    function cargarVotosLocales() {
+      const guardados = JSON.parse(localStorage.getItem(CLAVE_VOTOS_LOCALES) || 'null');
+      if (guardados) return guardados;
+
+      // Si no hay guardados, usar iniciales y guardarlos
+      localStorage.setItem(CLAVE_VOTOS_LOCALES, JSON.stringify(VOTOS_INICIALES);
+      return JSON.parse(JSON.stringify(VOTOS_INICIALES);
+    }
+
+    function guardarVotosLocales(votos) {
+      localStorage.setItem(CLAVE_VOTOS_LOCALES, JSON.stringify(votos);
+    }
+
+    function votarLocal(votacionId, opcionId, desvotar) {
+
+      const votos = cargarVotosLocales();
+      const datos = votos[votacionId];
+      const misVotos = JSON.parse(localStorage.getItem(CLAVE_VOTO_USUARIO) || '{}');
+
+      // Si desvota (misma opción)
+      if (desvotar) {
+        datos[opcionId] = Math.max(0, (datos[opcionId] || 0) - 1);
+        delete misVotos[votacionId];
+      } else {
+        // Si tenía otro voto, restarlo
+        if (misVotos[votacionId] && misVotos[votacionId] !== opcionId) {
+
+          const anterior = misVotos[votacionId];
+          datos[anterior] = Math.max(0, (datos[anterior] || 0) - 1);
+        }
+
+        // Si no tenía este voto, sumarlo
+        if (!misVotos[votacionId] || misVotos[votacionId] !== opcionId) {
+
+
+
+          datos[opcionId] = (datos[opcionId] || 0) + 1;
+        }
+
+        misVotos[votacionId] = opcionId;
+      }
+
+      localStorage.setItem(CLAVE_VOTO_USUARIO, JSON.stringify(misVotos);
+      guardarVotosLocales(votos);
+      actualizarResultados(votos;
+      marcarSeleccion(votacionId, desvotar ? null : opcionId;
+    }
+
+    // ---------- MODO FIREBASE (GLOBAL) ----------
+
+    // Escuchar cambios en Firebase
+    function iniciarFirebase() {
+      if (!firebaseListo) return;
+
+      votacionRef = db.ref('votaciones');
+      votacionRef.on('value', snap => {
+        const data = snap.val();
+        if (data) {
+          votosActuales = data;
+          actualizarResultados(votosActuales);
+        }
+      });
+
+      // Restaurar selecciones guardadas
+      restaurarSeleccionesLocales();
+
+      // Escuchar el voto del usuario
+      const miVoto = JSON.parse(localStorage.getItem(CLAVE_VOTO_USUARIO) || '{}');
+      for (const votacionId in miVoto) {
+        const opcionId = miVoto[votacionId];
+        if (opcionId) marcarSeleccion(votacionId, opcionId;
+      }
+    }
+
+    // Votar en Firebase
+    function votarFirebase(votacionId, opcionId, desvotar) {
+
+
+      if (!firebaseListo) return;
+
+      const miVoto = JSON.parse(localStorage.getItem(CLAVE_VOTO_USUARIO) || '{}');
+      const votacionRef = db.ref('votaciones/' + votacionId);
+
+      // Leer estado actual
+      votacionRef.once('value', snap => {
+        const datos = snap.val() || {};
+
+        if (desvotar) {
+          // Quitar mi voto
+          const nuevos = { ...datos, [opcionId]: Math.max(0, (datos[opcionId] || 0) - 1) };
+          votacionRef.set(nuevos);
+          delete miVoto[votacionId];
+        } else {
+          // Si tenía otro voto, restarlo
+          if (miVoto[votacionId] && miVoto[votacionId] !== opcionId) {
+
+            const anterior = miVoto[votacionId];
+            const nuevos = { ...datos, [anterior]: Math.max(0, (datos[anterior] || 0) - 1) };
+            // Sumar el nuevo
+            nuevos[opcionId] = (nuevos[opcionId] ||  ️0) + 1;
+            votacionRef.set(nuevos);
+          } else if (!miVoto[votacionId] || miVoto[votacionId] !== opcionId) {
+
+            const nuevos = { ...datos, [opcionId]: (datos[opcionId] || 0) + 1 };
+            votacionRef.set(nuevos);
+          }
+
+          miVoto[votacionId] = opcionId;
+        }
+
+        localStorage.setItem(CLAVE_VOTO_USUARIO, JSON.stringify(miVoto);
+        marcarSeleccion(votacionId, desvotar ? null : opcionId;
+      });
+    }
+
+    // ---------- MANEJAR CLICS ----------
+
+    document.querySelectorAll('.opcion').forEach(opcion => {
+      opcion.addEventListener('click', function() {
+        const votacionEl = this.closest('.votacion');
+        const votacionId = votacionEl.dataset.votacion;
+        const opcionId = this.dataset.opcion;
+
+        // Ver si ya voté por esta opción (para desvotar)
+        const miVoto = JSON.parse(localStorage.getItem(CLAVE_VOTO_USUARIO) || '{}');
+        const desvotar = miVoto[votacionId] === opcionId;
+
+        if (firebaseListo) {
+          votarFirebase(votacionId, opcionId, desvotar);
+        } else {
+          votarLocal(votacionId, opcionId, desvotar);
+        }
+      });
+    });
+
+    // ---------- INICIALIZAR ----------
+
+    if (firebaseListo) {
+      iniciarFirebase();
+    } else {
+      // Modo local
+      const votos = cargarVotosLocales();
+      actualizarResultados(votos);
+      restaurarSeleccionesLocales();
+      document.getElementById('aviso-modo').textContent = '🔒 Modo local (configurá Firebase para votos globales)';
+    }
+  </script>
+
+</body>
+</html>
