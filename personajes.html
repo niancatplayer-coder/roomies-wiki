@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomies Wiki — Personajes</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f5f1eb;
+      --texto: #4a4a4a;
+      --texto-suave: #7a7a8a;
+      --header-1: #c9d6c7;
+      --header-2: #e8e2d8;
+      --header-3: #d6c9e0;
+      --borde-header: #b8a9c9;
+      --titulo-header: #5a5a6e;
+      --tarjeta: #ffffff;
+      --chip: #f7f7f4;
+      --chip-sombra: rgba(0,0,0,0.06);
+      --cat-titulo: #5a5a6e;
+      --cat-borde: #d8d8e0;
+      --avatar-bg: #e8e8e8;
+      --avatar-color: #9a9a9a;
+      --footer-texto: #9a9a9a;
+      --footer-borde: #e0dcd4;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--texto);
+      line-height: 1.6;
+      transition: background-color 0.35s ease, color 0.35s ease;
+    }
+
+    body[data-tema="heroe"] {
+      --bg: #fdf8ec;
+      --texto: #5a4a1a;
+      --texto-suave: #8a7a3a;
+      --header-1: #f5e3b8;
+      --header-2: #f9edcf;
+      --header-3: #f0d9a0;
+      --borde-header: #d9b95a;
+      --titulo-header: #7a5c00;
+      --tarjeta: #fffdf5;
+      --chip: #fbf3dd;
+      --chip-sombra: rgba(180, 140, 40, 0.15);
+      --cat-titulo: #8a6d1a;
+      --cat-borde: #e8d9a8;
+      --avatar-bg: #f0dfae;
+      --avatar-color: #8a6d1a;
+      --footer-texto: #a08a4a;
+      --footer-borde: #e8dcb8;
+    }
+
+    body[data-tema="villano"] {
+      --bg: #1a1a1a;
+      --texto: #e0e0e0;
+      --texto-suave: #b0b0b0;
+      --header-1: #2a2a2a;
+      --header-2: #1c1c1c;
+      --header-3: #333333;
+      --borde-header: #555555;
+      --titulo-header: #ffffff;
+      --tarjeta: #2a2a2a;
+      --chip: #3a3a3a;
+      --chip-sombra: rgba(0,0,0,0.5);
+      --cat-titulo: #d8a0a0;
+      --cat-borde: #555555;
+      --avatar-bg: #3a3a3a;
+      --avatar-color: #b0b0b0;
+      --footer-texto: #888888;
+      --footer-borde: #444444;
+    }
+
+    body[data-tema="secundario"] {
+      --bg: #ededed;
+      --texto: #4a4a4a;
+      --texto-suave: #7a7a7a;
+      --header-1: #d8d8d8;
+      --header-2: #e8e8e8;
+      --header-3: #cfcfcf;
+      --borde-header: #b0b0b0;
+      --titulo-header: #555555;
+      --tarjeta: #ffffff;
+      --chip: #f0f0f0;
+      --chip-sombra: rgba(0,0,0,0.10);
+      --cat-titulo: #6a6a7a;
+      --cat-borde: #d0d0d8;
+      --avatar-bg: #d8d8d8;
+      --avatar-color: #777777;
+      --footer-texto: #9a9a9a;
+      --footer-borde: #d0d0d0;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--header-1), var(--header-2), var(--header-3));
+      text-align: center;
+      padding: 50px 20px;
+      border-bottom: 3px solid var(--borde-header);
+      transition: background 0.35s ease, border-color 0.35s ease;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: var(--titulo-header);
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+      transition: color 0.35s ease;
+    }
+
+    header p {
+      font-size: 1.05rem;
+      color: var(--texto-suave);
+      max-width: 600px;
+      margin: 0 auto;
+      transition: color 0.35s ease;
+    }
+
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: var(--texto-suave);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.35s ease;
+    }
+
+    .volver:hover {
+      color: var(--titulo-header);
+    }
+
+    .categoria {
+      background: var(--tarjeta);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px var(--chip-sombra);
+      transition: background 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .categoria h2 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--cat-borde);
+      color: var(--cat-titulo);
+      transition: color 0.35s ease, border-color 0.35s ease;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 15px;
+    }
+
+    .personaje {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      background: var(--chip);
+      border-radius: 12px;
+      padding: 15px 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.35s ease;
+    }
+
+    .personaje:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 14px var(--chip-sombra);
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: var(--avatar-bg);
+      color: var(--avatar-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      overflow: hidden;
+      position: relative;
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .nombre {
+      font-size: 0.95rem;
+      color: var(--texto);
+      font-weight: 600;
+      transition: color 0.35s ease;
+    }
+
+    .subtitulo {
+      font-size: 0.75rem;
+      color: var(--texto-suave);
+      transition: color 0.35s ease;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: var(--footer-texto);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--footer-borde);
+      transition: color 0.35s ease, border-color 0.35s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>PERSONAJES</h1>
+    <p>Elige a quién quieres conocer</p>
+  </header>
+
+  <div class="contenido">
+
+    <a class="volver" href="index.html">← Volver al inicio</a>
+
+    <!-- HÉROES -->
+    <div class="categoria heroes">
+      <h2>Héroes</h2>
+      <div class="grid">
+        <a class="personaje" href="wooly.html" data-tema="heroe">
+          <div class="avatar"><img src="imagenes/gifs/wooly.gif" alt=""><span>W</span></div>
+          <span class="nombre">Wooly</span>
+        </a>
+        <a class="personaje" href="Oliver.html" data-tema="heroe">
+          <div class="avatar"><img src="imagenes/gifs/oliver.gif" alt=""><span>O</span></div>
+          <span class="nombre">Oliver</span>
+        </a>
+        <a class="personaje" href="ace.html" data-tema="heroe">
+          <div class="avatar"><img src="imagenes/gifs/ace.gif" alt=""><span>A</span></div>
+          <span class="nombre">Ace</span>
+        </a>
+        <a class="personaje" href="lucky.html" data-tema="heroe">
+          <div class="avatar"><img src="imagenes/gifs/lucky.gif" alt=""><span>L</span></div>
+          <span class="nombre">Lucky</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- VILLANOS -->
+    <div class="categoria villanos">
+      <h2>Villanos</h2>
+      <div class="grid">
+        <a class="personaje" href="diablo.html" data-tema="villano">
+          <div class="avatar"><img src="imagenes/gifs/diablo.gif" alt=""><span>D</span></div>
+          <span class="nombre">Diablo</span>
+        </a>
+        <a class="personaje" href="gabriel.html" data-tema="villano">
+          <div class="avatar"><img src="imagenes/gifs/gabriel.gif" alt=""><span>G</span></div>
+          <span class="nombre">Gabriel</span>
+        </a>
+        <a class="personaje" href="alfa-kit.html" data-tema="villano">
+          <div class="avatar"><img src="imagenes/gifs/alfa-kit.gif" alt=""><span>A</span></div>
+          <span class="nombre">Alfa-Kit</span>
+        </a>
+        <a class="personaje" href="wahid.html" data-tema="villano">
+          <div class="avatar"><img src="imagenes/gifs/wahed.gif" alt=""><span>1</span></div>
+          <span class="nombre">Wahid</span>
+          <span class="subtitulo">1 · Árabe</span>
+        </a>
+        <a class="personaje" href="zwei.html" data-tema="villano">
+          <div class="avatar"><img src="imagenes/gifs/zwei.gif" alt=""><span>2</span></div>
+          <span class="nombre">Zwei</span>
+          <span class="subtitulo">2 · Alemán</span>
+        </a>
+        <a class="personaje" href="#" data-tema="villano">
+          <div class="avatar"><img src="imagenes/gifs/ichi.gif" alt=""><span>3</span></div>
+          <span class="nombre">Mittsu</span>
+          <span class="subtitulo">3 · Japonés</span>
+        </a>
+        <a class="personaje" href="#" data-tema="villano">
+          <div class="avatar"><img src="imagenes/gifs/one.gif" alt=""><span>4</span></div>
+          <span class="nombre">Four</span>
+          <span class="subtitulo">4 · Inglés</span>
+        </a>
+        <a class="personaje" href="#" data-tema="villano">
+          <div class="avatar"><img src="imagenes/gifs/nam.gif" alt=""><span>5</span></div>
+          <span class="nombre">Nam</span>
+          <span class="subtitulo">5 · Vietnamita</span>
+        </a>
+        <a class="personaje" href="#" data-tema="villano">
+          <div class="avatar"><img src="imagenes/gifs/liu.gif" alt=""><span>6</span></div>
+          <span class="nombre">Liu</span>
+          <span class="subtitulo">6 · Chino mandarín</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- SECUNDARIOS -->
+    <div class="categoria secundarios">
+      <h2>Secundarios</h2>
+      <div class="grid">
+        <a class="personaje" href="#" data-tema="secundario">
+          <div class="avatar"><img src="imagenes/gifs/clover.gif" alt=""><span>C</span></div>
+          <span class="nombre">Clover</span>
+        </a>
+        <a class="personaje" href="#" data-tema="secundario">
+          <div class="avatar"><img src="imagenes/gifs/angel.gif" alt=""><span>A</span></div>
+          <span class="nombre">Angel</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Roomies Wiki — hecho por Brony Boy
+  </footer>
+
+  <script>
+    const personajes = document.querySelectorAll('.personaje');
+
+    personajes.forEach(p => {
+      p.addEventListener('mouseenter', () => {
+        document.body.setAttribute('data-tema', p.dataset.tema);
+      });
+      p.addEventListener('mouseleave', () => {
+        document.body.removeAttribute('data-tema');
+      });
+    });
+  </script>
+
+</body>
+</html>
+
