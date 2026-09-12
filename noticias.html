@@ -486,7 +486,8 @@
       const pass = document.getElementById('password').value;
       const mensaje = document.getElementById('mensaje-login');
 
-      if (pass === racoonplayer123) {
+     const CONTRASENA_EDITOR = 'racoonplayer123';
+
         document.getElementById('paso-login').style.display = 'none';
         document.getElementById('paso-publicar').style.display = 'block';
         mensaje.className = 'mensaje-editor';
