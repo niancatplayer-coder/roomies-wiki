@@ -9,36 +9,41 @@
 
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
-      background-color: #fdfaf3;
-      color: #4a4a4a;
+      background-color: #fdf6fb;
+      color: #5a5a6a;
       line-height: 1.6;
     }
 
     .banner {
-      background: linear-gradient(135deg, #C9A227, #F5E6C8);
+      background: linear-gradient(135deg, #ffd6e8, #c9e4ff, #d6f5d6, #fff3c4);
       text-align: center;
       padding: 50px 20px;
-      border-bottom: 3px solid #8a6d1f;
+      border-bottom: 3px solid #e8a0c8;
     }
 
     .banner h1 {
       font-size: 2.8rem;
-      color: #6b5314;
+      color: #8a4a6a;
       letter-spacing: 3px;
       margin-bottom: 8px;
+      text-shadow: 1px 1px 0 #ffffff;
     }
 
     .banner p {
       font-size: 1.05rem;
-      color: #7a5f1a;
+      color: #7a5a7a;
       max-width: 600px;
-      margin: 0 auto;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
     }
 
     .contenido {
-      max-width: 800px;
-      margin: 0 auto;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
       padding: 40px 20px;
+      width: 100%;
     }
 
     .volver {
@@ -49,165 +54,120 @@
       font-size: 0.95rem;
     }
 
-    .volver:hover { color: #C9A227; }
+    .volver:hover { color: #c06090; }
 
-    .aviso {
-      background-color: #fdf6e3;
-      border: 2px solid #C9A227;
-      border-radius: 10px;
-      padding: 12px 15px;
-      margin-bottom: 30px;
-      font-size: 0.95rem;
-      color: #7a5f1a;
+    .pregunta {
       text-align: center;
-    }
-
-    .votacion {
-      background-color: #ffffff;
-      border-radius: 15px;
-      padding: 30px;
       margin-bottom: 30px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 
-    .votacion h2 {
-      color: #3a3a3a;
-      font-size: 1.4rem;
-      margin-bottom: 5px;
+    .pregunta h2 {
+      font-size: 1.6rem;
+      color: #8a4a6a;
+      margin-bottom: 6px;
     }
 
-    .votacion .pregunta {
-      color: #8a8a8a;
+    .pregunta p {
       font-size: 0.95rem;
-      margin-bottom: 20px;
+      color: #9a9aaa;
     }
 
-    .grupo {
-      margin-bottom: 25px;
+    .seccion-titulo {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #8a4a6a;
+      margin: 10px 0 20px;
+      text-align: center;
+      letter-spacing: 1px;
     }
 
-    .grupo h3 {
-      color: #6b5314;
-      font-size: 1.05rem;
-      margin-bottom: 12px;
-      border-bottom: 2px solid #f0e3c4;
-      padding-bottom: 8px;
+    .grilla {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
     }
 
-    .opciones {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .opcion {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 15px;
-      border-radius: 10px;
-      border: 2px solid #e0e0e0;
+    .carta {
+      background-color: #ffffff;
+      border: 2px solid #f0d8e8;
+      border-radius: 16px;
+      padding: 18px 12px 14px;
+      text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
-      background-color: #fafafa;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      position: relative;
     }
 
-    .opcion:hover {
-      border-color: #C9A227;
-      background-color: #fdf6e3;
+    .carta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.10);
     }
 
-    .opcion.seleccionada {
-      border-color: #C9A227;
-      background-color: #fdf6e3;
+    .carta.seleccionada {
+      border-color: #e070a0;
+      background-color: #fff0f7;
+      box-shadow: 0 6px 16px rgba(224,112,160,0.25);
     }
 
-    .opcion .check {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      border: 2px solid #b0b0b0;
+    .carta .emoji {
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .carta .nombre {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #5a4a5a;
+      margin-bottom: 6px;
+      min-height: 2.4em;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      transition: all 0.2s;
-      font-size: 0.8rem;
-      color: #ffffff;
     }
 
-    .opcion.seleccionada .check {
-      background-color: #C9A227;
-      border-color: #C9A227;
+    .carta .votos {
+      font-size: 0.9rem;
+      color: #b080a0;
+      background-color: #fdf0f8;
+      border-radius: 20px;
+      padding: 4px 10px;
+      display: inline-block;
     }
 
-    .opcion .nombre {
-      flex: 1;
-      font-weight: 600;
-      color: #3a3a3a;
-    }
-
-    .resultados {
-      margin-top: 20px;
-      border-top: 2px solid #eaeaea;
-      padding-top: 20px;
-    }
-
-    .resultados h3 {
-      color: #3a3a3a;
+    .carta .check {
+      position: absolute;
+      top: 8px;
+      right: 8px;
       font-size: 1.1rem;
-      margin-bottom: 15px;
+      display: none;
     }
 
-    .resultado {
-      margin-bottom: 15px;
-    }
+    .carta.seleccionada .check { display: block; }
 
-    .resultado .fila {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      margin-bottom: 5px;
-    }
-
-    .resultado .fila .nombre-res { color: #3a3a3a; font-weight: 600; }
-    .resultado .fila .porcentaje { color: #C9A227; font-weight: 700; }
-
-    .resultado .barra-fondo {
-      background-color: #f0f0f0;
-      border-radius: 10px;
-      height: 10px;
-      overflow: hidden;
-    }
-
-    .resultado .barra-llena {
-      background: linear-gradient(to right, #C9A227, #F5E6C8);
-      height: 100%;
-      border-radius: 10px;
-      transition: width 0.4s ease;
-      width: 0%;
-    }
-
-    .resultado .votos {
-      font-size: 0.8rem;
-      color: #9a9a9a;
-      margin-top: 3px;
-    }
-
-    .total-votos {
+    .info-voto {
       text-align: center;
-      color: #8a8a8a;
+      margin-top: 25px;
       font-size: 0.9rem;
-      margin-top: 15px;
+      color: #9a9aaa;
+    }
+
+    .mensaje {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: #6a9a6a;
+      min-height: 1.4em;
     }
 
     footer {
       text-align: center;
       padding: 30px 20px;
       margin-top: 40px;
-      color: #9a9a9a;
+      color: #b0a0a8;
       font-size: 0.9rem;
-      border-top: 1px solid #efe3c4;
+      border-top: 1px solid #f0e0e8;
     }
   </style>
 </head>
@@ -215,94 +175,24 @@
 
   <div class="banner">
     <h1>VOTACIONES</h1>
-    <p>Votá en vivo por tu personaje favorito</p>
+    <p>¡Elegí a tu personaje favorito de Roomies!</p>
   </div>
 
   <div class="contenido">
 
     <a class="volver" href="index.html">← Volver al inicio</a>
 
-    <div class="aviso" id="aviso-modo">
-      🌍 Votos globales en vivo
-    </div>
-
-    <!-- VOTACIÓN ÚNICA: PERSONAJE FAVORITO -->
-    <div class="votacion" data-votacion="favorito">
+    <div class="pregunta">
       <h2>¿Cuál es tu personaje favorito?</h2>
-      <p class="pregunta">Elegí a tu favorito. Podés cambiar tu voto cuando quieras, o hacer clic de nuevo en el mismo para quitarlo.</p>
-
-      <!-- PRINCIPALES -->
-      <div class="grupo">
-        <h3>⭐ Principales</h3>
-        <div class="opciones">
-          <div class="opcion" data-opcion="wooly"><div class="check">✓</div><span class="nombre">Wooly</span></div>
-          <div class="opcion" data-opcion="ace"><div class="check">✓</div><span class="nombre">Ace</span></div>
-          <div class="opcion" data-opcion="lucky"><div class="check">✓</div><span class="nombre">Lucky</span></div>
-          <div class="opcion" data-opcion="clover"><div class="check">✓</div><span class="nombre">Clover</span></div>
-          <div class="opcion" data-opcion="funky"><div class="check">✓</div><span class="nombre">Funky</span></div>
-          <div class="opcion" data-opcion="noir"><div class="check">✓</div><span class="nombre">Noir</span></div>
-          <div class="opcion" data-opcion="rose"><div class="check">✓</div><span class="nombre">Rose</span></div>
-          <div class="opcion" data-opcion="creamy"><div class="check">✓</div><span class="nombre">Creamy</span></div>
-          <div class="opcion" data-opcion="luci"><div class="check">✓</div><span class="nombre">Luci</span></div>
-        </div>
-      </div>
-
-      <!-- SECUNDARIOS Y CELESTIALES -->
-      <div class="grupo">
-        <h3>🕊️ Secundarios y celestiales</h3>
-        <div class="opciones">
-          <div class="opcion" data-opcion="oliver"><div class="check">✓</div><span class="nombre">Oliver</span></div>
-          <div class="opcion" data-opcion="angel"><div class="check">✓</div><span class="nombre">Angel</span></div>
-          <div class="opcion" data-opcion="gabriel"><div class="check">✓</div><span class="nombre">Gabriel</span></div>
-          <div class="opcion" data-opcion="alfa-kit"><div class="check">✓</div><span class="nombre">Alfa-Kit</span></div>
-          <div class="opcion" data-opcion="proto-kit"><div class="check">✓</div><span class="nombre">Proto-Kit</span></div>
-          <div class="opcion" data-opcion="wahid"><div class="check">✓</div><span class="nombre">Wahid (Nº1)</span></div>
-          <div class="opcion" data-opcion="zwei"><div class="check">✓</div><span class="nombre">Zwei (Nº2)</span></div>
-          <div class="opcion" data-opcion="mittsu"><div class="check">✓</div><span class="nombre">Mittsu (Nº3)</span></div>
-          <div class="opcion" data-opcion="four"><div class="check">✓</div><span class="nombre">Four (Nº4)</span></div>
-          <div class="opcion" data-opcion="nam"><div class="check">✓</div><span class="nombre">Nam (Nº5)</span></div>
-          <div class="opcion" data-opcion="liu"><div class="check">✓</div><span class="nombre">Liu (Nº6)</span></div>
-        </div>
-      </div>
-
-      <!-- VILLANOS -->
-      <div class="grupo">
-        <h3>😈 Villanos</h3>
-        <div class="opciones">
-          <div class="opcion" data-opcion="diablo"><div class="check">✓</div><span class="nombre">Diablo (Luzbel)</span></div>
-          <div class="opcion" data-opcion="angelo"><div class="check">✓</div><span class="nombre">Angelo</span></div>
-          <div class="opcion" data-opcion="primer-fantasma"><div class="check">✓</div><span class="nombre">Primer Fantasma</span></div>
-        </div>
-      </div>
-
-      <div class="resultados">
-        <h3>Resultados en vivo</h3>
-        <div class="resultado" data-resultado="wooly"><div class="fila"><span class="nombre-res">Wooly</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="ace"><div class="fila"><span class="nombre-res">Ace</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="lucky"><div class="fila"><span class="nombre-res">Lucky</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="clover"><div class="fila"><span class="nombre-res">Clover</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="funky"><div class="fila"><span class="nombre-res">Funky</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="noir"><div class="fila"><span class="nombre-res">Noir</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="rose"><div class="fila"><span class="nombre-res">Rose</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="creamy"><div class="fila"><span class="nombre-res">Creamy</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="luci"><div class="fila"><span class="nombre-res">Luci</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="oliver"><div class="fila"><span class="nombre-res">Oliver</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="angel"><div class="fila"><span class="nombre-res">Angel</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="gabriel"><div class="fila"><span class="nombre-res">Gabriel</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="alfa-kit"><div class="fila"><span class="nombre-res">Alfa-Kit</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="proto-kit"><div class="fila"><span class="nombre-res">Proto-Kit</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="wahid"><div class="fila"><span class="nombre-res">Wahid (Nº1)</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="zwei"><div class="fila"><span class="nombre-res">Zwei (Nº2)</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="mittsu"><div class="fila"><span class="nombre-res">Mittsu (Nº3)</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="four"><div class="fila"><span class="nombre-res">Four (Nº4)</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="nam"><div class="fila"><span class="nombre-res">Nam (Nº5)</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="liu"><div class="fila"><span class="nombre-res">Liu (Nº6)</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="diablo"><div class="fila"><span class="nombre-res">Diablo (Luzbel)</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="angelo"><div class="fila"><span class="nombre-res">Angelo</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="resultado" data-resultado="primer-fantasma"><div class="fila"><span class="nombre-res">Primer Fantasma</span><span class="porcentaje">0%</span></div><div class="barra-fondo"><div class="barra-llena"></div></div><div class="votos">0 votos</div></div>
-        <div class="total-votos">Total: 0 votos</div>
-      </div>
+      <p>Tocá una carta para votar. Tocala de nuevo para quitar tu voto.</p>
     </div>
+
+    <div class="seccion-titulo">🌟 Personajes</div>
+
+    <div class="grilla" id="grilla"></div>
+
+    <div class="info-voto" id="info-voto"></div>
+    <div class="mensaje" id="mensaje"></div>
 
   </div>
 
@@ -310,11 +200,11 @@
     Roomies Wiki — Votaciones
   </footer>
 
-  <!-- 🔥 FIREBASE -->
+  <!-- 🔥 FIREBASE (base de datos gratis) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
   <script>
-    // ⚙️ CONFIGURACIÓN DE FIREBASE (tus datos reales)
+    // ⚙️ CONFIGURACIÓN DE FIREBASE (tus datos)
     const firebaseConfig = {
       apiKey: "AIzaSyDrX8lGd73bI0TVY68YSK1bvvCppspsSQ4",
       authDomain: "roomies-wiki.firebaseapp.com",
@@ -326,172 +216,177 @@
       measurementId: "G-HSC7RLSC4M"
     };
 
-    // Inicializar Firebase
-    let firebaseListo = false;
+    // 🌟 PERSONAJES (los que tienen página, todos en una sola sección)
+    const PERSONAJES = [
+      { id: 'wooly',     nombre: 'Wooly',           emoji: '🐑', votosIniciales: 5 },
+      { id: 'ace',       nombre: 'Ace',             emoji: '🐺', votosIniciales: 3 },
+      { id: 'lucky',     nombre: 'Lucky',           emoji: '🐱', votosIniciales: 4 },
+      { id: 'clover',    nombre: 'Clover',          emoji: '🐰', votosIniciales: 1 },
+      { id: 'oliver',    nombre: 'Oliver',          emoji: '😇', votosIniciales: 2 },
+      { id: 'angel',     nombre: 'Angel',           emoji: '🕊️', votosIniciales: 2 },
+      { id: 'gabriel',   nombre: 'Gabriel',         emoji: '🐶', votosIniciales: 2 },
+      { id: 'alfa-kit',  nombre: 'Alfa-Kit',        emoji: '🤖', votosIniciales: 1 },
+      { id: 'wahid',     nombre: 'Nº1 (Wahid)',     emoji: '🐈', votosIniciales: 1 },
+      { id: 'zwei',      nombre: 'Nº2 (Zwei)',      emoji: '🐈‍⬛', votosIniciales: 1 },
+      { id: 'mittsu',    nombre: 'Nº3 (Mittsu)',    emoji: '🐺', votosIniciales: 1 },
+      { id: 'four',      nombre: 'Nº4 (Four)',      emoji: '🐑', votosIniciales: 1 },
+      { id: 'nam',       nombre: 'Nº5 (Nam)',       emoji: '🦌', votosIniciales: 1 },
+      { id: 'liu',       nombre: 'Nº6 (Liu)',       emoji: '🪼', votosIniciales: 1 },
+      { id: 'diablo',    nombre: 'Diablo',          emoji: '😈', votosIniciales: 3 }
+    ];
+
     let db = null;
+    let firebaseListo = false;
 
     try {
       firebase.initializeApp(firebaseConfig);
       db = firebase.database();
       firebaseListo = true;
     } catch (e) {
-      console.log('Firebase no pudo inicializarse, usando modo local');
+      console.log('Firebase no pudo inicializarse:', e);
     }
 
-    // Claves para almacenamiento local
-    const CLAVE_VOTO_USUARIO = 'roomies_mi_voto';
-    const CLAVE_VOTOS_LOCALES = 'roomies_votos_locales';
+    // Voto guardado del usuario (localStorage)
+    let miVoto = localStorage.getItem('voto-roomies') || null;
 
-    // Votos base para que las barras no arranquen en cero
-    const VOTOS_INICIALES = {
-      'favorito': {
-        'wooly': 5, 'ace': 3, 'lucky': 4, 'clover': 1,
-        'funky': 2, 'noir': 1, 'rose': 1, 'creamy': 1, 'luci': 1,
-        'oliver': 2, 'angel': 2, 'gabriel': 2, 'alfa-kit': 1, 'proto-kit': 1,
-        'wahid': 1, 'zwei': 1, 'mittsu': 1, 'four': 1, 'nam': 1, 'liu': 1,
-        'diablo': 3, 'angelo': 1, 'primer-fantasma': 1
-      }
-    };
+    // Conteo actual de votos
+    let conteo = {};
+    PERSONAJES.forEach(p => { conteo[p.id] = p.votosIniciales; });
 
-    // ---------- FUNCIONES DE INTERFAZ ----------
+    // ---------- SEMBRAR VOTOS INICIALES (solo si la base está vacía) ----------
 
-    function actualizarResultados(votos) {
-      const datos = votos['favorito'] || {};
-      let total = 0;
-      for (const opcion in datos) total += datos[opcion];
-
-      document.querySelectorAll('.resultado').forEach(resultadoEl => {
-        const idOpcion = resultadoEl.dataset.resultado;
-        const votosOpcion = datos[idOpcion] || 0;
-        const porcentaje = total > 0 ? Math.round((votosOpcion / total) * 100) : 0;
-
-        resultadoEl.querySelector('.porcentaje').textContent = porcentaje + '%';
-        resultadoEl.querySelector('.barra-llena').style.width = porcentaje + '%';
-        resultadoEl.querySelector('.votos').textContent = votosOpcion + (votosOpcion === 1 ? ' voto' : ' votos');
-      });
-
-      document.querySelector('.total-votos').textContent = 'Total: ' + total + (total === 1 ? ' voto' : ' votos');
-    }
-
-    function marcarSeleccion(opcionId) {
-      document.querySelectorAll('.opcion').forEach(op => {
-        op.classList.toggle('seleccionada', op.dataset.opcion === opcionId);
+    function sembrarVotos() {
+      if (!firebaseListo) return;
+      db.ref('votaciones').once('value', snap => {
+        if (!snap.exists()) {
+          const datos = {};
+          PERSONAJES.forEach(p => { datos[p.id] = p.votosIniciales; });
+          db.ref('votaciones').set(datos);
+        }
       });
     }
 
-    function restaurarSelecciones() {
-      const guardados = JSON.parse(localStorage.getItem(CLAVE_VOTO_USUARIO) || '{}');
-      if (guardados['favorito']) marcarSeleccion(guardados['favorito']);
+    // ---------- GUARDAR EN LOCAL (modo sin conexión) ----------
+
+    function guardarLocal() {
+      try {
+        localStorage.setItem('votos-roomies-local', JSON.stringify(conteo));
+      } catch (e) {}
     }
 
-    // ---------- MODO LOCAL (RESPALDO) ----------
-
-    function cargarVotosLocales() {
-      const guardados = JSON.parse(localStorage.getItem(CLAVE_VOTOS_LOCALES) || 'null');
-      if (guardados) return guardados;
-      localStorage.setItem(CLAVE_VOTOS_LOCALES, JSON.stringify(VOTOS_INICIALES));
-      return JSON.parse(JSON.stringify(VOTOS_INICIALES));
+    function cargarLocal() {
+      try {
+        const guardado = localStorage.getItem('votos-roomies-local');
+        if (guardado) {
+          conteo = JSON.parse(guardado);
+          PERSONAJES.forEach(p => { if (conteo[p.id] === undefined) conteo[p.id] = p.votosIniciales; });
+        }
+      } catch (e) {}
     }
 
-    function guardarVotosLocales(votos) {
-      localStorage.setItem(CLAVE_VOTOS_LOCALES, JSON.stringify(votos));
-    }
+    // ---------- PINTAR LAS CARTAS ----------
 
-    function votarLocal(opcionId, desvotar) {
-      const votos = cargarVotosLocales();
-      const datos = votos['favorito'];
-      const miVoto = JSON.parse(localStorage.getItem(CLAVE_VOTO_USUARIO) || '{}');
-      const anterior = miVoto['favorito'];
+    function pintar() {
+      const grilla = document.getElementById('grilla');
+      grilla.innerHTML = '';
 
-      if (desvotar) {
-        datos[opcionId] = Math.max(0, (datos[opcionId] || 0) - 1);
-        delete miVoto['favorito'];
+      PERSONAJES.forEach(p => {
+        const carta = document.createElement('div');
+        carta.className = 'carta' + (miVoto === p.id ? ' seleccionada' : '');
+        carta.dataset.id = p.id;
+
+        carta.innerHTML =
+          '<span class="check">✅</span>' +
+          '<span class="emoji">' + p.emoji + '</span>' +
+          '<div class="nombre">' + p.nombre + '</div>' +
+          '<span class="votos">' + (conteo[p.id] || 0) + ' votos</span>';
+
+        carta.addEventListener('click', function () {
+          votar(p.id);
+        });
+
+        grilla.appendChild(carta);
+      });
+
+      const info = document.getElementById('info-voto');
+      if (miVoto) {
+        const actual = PERSONAJES.find(p => p.id === miVoto);
+        info.textContent = 'Tu voto actual: ' + (actual ? actual.nombre : miVoto);
       } else {
-        if (anterior && anterior !== opcionId) {
-          datos[anterior] = Math.max(0, (datos[anterior] || 0) - 1);
+        info.textContent = 'Todavía no votaste. ¡Elegí a tu favorito!';
+      }
+    }
+
+    // ---------- VOTAR / CAMBIAR / DESVOTAR ----------
+
+    function votar(id) {
+      if (miVoto === id) {
+        // Desvotar
+        conteo[id] = (conteo[id] || 0) - 1;
+        miVoto = null;
+      } else {
+        // Cambiar de voto: resto el anterior si existía
+        if (miVoto) {
+          conteo[miVoto] = (conteo[miVoto] || 0) - 1;
         }
-        if (!anterior || anterior !== opcionId) {
-          datos[opcionId] = (datos[opcionId] || 0) + 1;
-        }
-        miVoto['favorito'] = opcionId;
+        conteo[id] = (conteo[id] || 0) + 1;
+        miVoto = id;
       }
 
-      localStorage.setItem(CLAVE_VOTO_USUARIO, JSON.stringify(miVoto));
-      guardarVotosLocales(votos);
-      actualizarResultados(votos);
-      marcarSeleccion(desvotar ? null : opcionId);
+      localStorage.setItem('voto-roomies', miVoto);
+
+      const mensaje = document.getElementById('mensaje');
+      if (miVoto) {
+        const actual = PERSONAJES.find(p => p.id === miVoto);
+        mensaje.textContent = '¡Gracias por votar por ' + actual.nombre + '! 💛';
+      } else {
+        mensaje.textContent = 'Quitaste tu voto.';
+      }
+
+      if (firebaseListo) {
+        db.ref('votaciones/' + id).set(conteo[id]);
+        if (miVoto === null) {
+          // ya resté el voto en conteo; guardo el valor actualizado del anterior
+        }
+        // Guardo también el valor del personaje desvotado
+        const anterior = miVoto === null ? null : null;
+        // Actualizo el nodo del personaje que perdió el voto (si hubo cambio)
+        actualizarFirebase();
+      }
+
+      guardarLocal();
+      pintar();
     }
 
-    // ---------- MODO FIREBASE (GLOBAL) ----------
+    function actualizarFirebase() {
+      // Guarda todos los conteos en Firebase para mantener sincronizado
+      const datos = {};
+      PERSONAJES.forEach(p => { datos[p.id] = conteo[p.id] || 0; });
+      db.ref('votaciones').set(datos);
+    }
 
-    function iniciarFirebase() {
+    // ---------- ESCUCHAR CAMBIOS EN TIEMPO REAL ----------
+
+    function escuchar() {
       if (!firebaseListo) return;
-
-      db.ref('votaciones/favorito').on('value', snap => {
+      db.ref('votaciones').on('value', snap => {
         const data = snap.val();
-        if (data) actualizarResultados({ 'favorito': data });
-      });
-
-      restaurarSelecciones();
-    }
-
-    function votarFirebase(opcionId, desvotar) {
-      if (!firebaseListo) return;
-
-      const miVoto = JSON.parse(localStorage.getItem(CLAVE_VOTO_USUARIO) || '{}');
-      const ref = db.ref('votaciones/favorito');
-      const anterior = miVoto['favorito'];
-
-      ref.once('value', snap => {
-        const datos = snap.val() || {};
-
-        if (desvotar) {
-          const nuevos = { ...datos, [opcionId]: Math.max(0, (datos[opcionId] || 0) - 1) };
-          ref.set(nuevos);
-          delete miVoto['favorito'];
-        } else {
-          if (anterior && anterior !== opcionId) {
-            const nuevos = { ...datos, [anterior]: Math.max(0, (datos[anterior] || 0) - 1) };
-            nuevos[opcionId] = (nuevos[opcionId] || 0) + 1;
-            ref.set(nuevos);
-          } else if (!anterior || anterior !== opcionId) {
-            const nuevos = { ...datos, [opcionId]: (datos[opcionId] || 0) + 1 };
-            ref.set(nuevos);
+        if (!data) return;
+        PERSONAJES.forEach(p => {
+          if (typeof data[p.id] === 'number') {
+            conteo[p.id] = data[p.id];
           }
-          miVoto['favorito'] = opcionId;
-        }
-
-        localStorage.setItem(CLAVE_VOTO_USUARIO, JSON.stringify(miVoto));
-        marcarSeleccion(desvotar ? null : opcionId);
+        });
+        pintar();
       });
     }
 
-    // ---------- MANEJAR CLICS ----------
+    // ---------- INICIAR ----------
 
-    document.querySelectorAll('.opcion').forEach(opcion => {
-      opcion.addEventListener('click', function() {
-        const opcionId = this.dataset.opcion;
-        const miVoto = JSON.parse(localStorage.getItem(CLAVE_VOTO_USUARIO) || '{}');
-        const desvotar = miVoto['favorito'] === opcionId;
-
-        if (firebaseListo) {
-          votarFirebase(opcionId, desvotar);
-        } else {
-          votarLocal(opcionId, desvotar);
-        }
-      });
-    });
-
-    // ---------- INICIALIZAR ----------
-
-    if (firebaseListo) {
-      iniciarFirebase();
-    } else {
-      const votos = cargarVotosLocales();
-      actualizarResultados(votos);
-      restaurarSelecciones();
-      document.getElementById('aviso-modo').textContent = '🔒 Modo local (revisá tu configuración de Firebase)';
-    }
+    cargarLocal();
+    sembrarVotos();
+    escuchar();
+    pintar();
   </script>
 
 </body>
